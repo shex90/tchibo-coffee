@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tchibo Coffee House</title>
+    <!-- ئایکۆنێن Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 15px 12px;
+            overflow-x: hidden;
+            background: #060b14;
+            position: relative;
+        }
+
+        /* ڤیدیۆیا پاشبنەمایێ */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 11, 20, 0.45);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: -1;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ================= ١. لاپەرێ سەرەکی (Landing View) ================= */
+        #landingView {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 4px;
+        }
+
+        .brand-logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo-img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid #d4af37;
+            background: #001f3f;
+        }
+
+        .brand-title {
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-title span {
+            color: #d4af37;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 4px 6px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 4px 9px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .lang-btn.active {
+            background: #d4af37;
+            color: #060b14;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+        }
+
+        .hero-section {
+            text-align: center;
+            margin: 6px 0 4px;
+        }
+
+        .heritage-tag {
+            display: inline-block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.6px;
+            color: #d4af37;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 3px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-section h1 {
+            font-size: 29px;
+            font-weight: 800;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+        }
+
+        .hero-section p {
+            font-size: 13.5px;
+            color: #cbd5e1;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+        }
+
+        /* کارتێن سەرەکی یێن دەستپێکێ */
+        .cards-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .category-card {
+            position: relative;
+            height: 155px;
+            border-radius: 22px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px 22px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(212, 175, 55, 0.6);
+        }
+
+        .category-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            transition: transform 0.6s ease;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.06);
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(6, 11, 20, 0.15) 0%, rgba(6, 11, 20, 0.88) 100%);
+            z-index: 2;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .text-wrap span {
+            font-size: 11.5px;
+            letter-spacing: 1px;
+            color: #d4af37;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 2px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+        }
+
+        .text-wrap h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+        }
+
+        .arrow-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 14px;
+            backdrop-filter: blur(5px);
+            transition: 0.25s ease;
+        }
+
+        [dir="rtl"] .arrow-circle i {
+            transform: rotate(180deg);
+        }
+
+        .category-card:hover .arrow-circle {
+            background: #d4af37;
+            color: #060b14;
+            border-color: #d4af37;
+        }
+
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.25s;
+        }
+
+        .social-link:hover {
+            color: #d4af37;
+            border-color: #d4af37;
+            transform: translateY(-2px);
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 11.5px;
+            color: #94a3b8;
+            margin-top: 6px;
+        }
+
+        /* ================= ٢. دیزاینێ مینیویا ئایتمان (Menu View) ================= */
+        #menuView {
+            display: none;
+            background: rgba(6, 14, 28, 0.48);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 26px;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            padding: 16px 14px 22px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .menu-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .back-btn {
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: 0.25s;
+        }
+
+        [dir="rtl"] .back-btn i {
+            transform: rotate(180deg);
+        }
+
+        .back-btn:hover {
+            background: #d4af37;
+            color: #060b14;
+            border-color: #d4af37;
+        }
+
+        .section-current-badge {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #d4af37;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .search-box input {
+            width: 100%;
+            background: rgba(6, 14, 28, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            padding: 10px 38px 10px 14px;
+            color: #ffffff;
+            font-size: 13px;
+            outline: none;
+        }
+
+        [dir="ltr"] .search-box input {
+            padding: 10px 14px 10px 38px;
+        }
+
+        .search-box input:focus {
+            border-color: #d4af37;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #cbd5e1;
+        }
+
+        [dir="ltr"] .search-box i {
+            right: auto;
+            left: 14px;
+        }
+
+        /* دوگمەیێن پۆلان دگەل ئایکۆنان */
+        .categories-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .categories-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            background: rgba(6, 14, 28, 0.55);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .tab-btn i {
+            color: #d4af37;
+            font-size: 12px;
+        }
+
+        .tab-btn.active {
+            background: #d4af37;
+            color: #060b14;
+            border-color: #d4af37;
+            font-weight: 700;
+        }
+
+        .tab-btn.active i {
+            color: #060b14;
+        }
+
+        /* کارتان */
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .item-card {
+            display: flex;
+            align-items: center;
+            background: rgba(6, 14, 28, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 10px;
+            gap: 12px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+
+        .item-img {
+            width: 68px;
+            height: 68px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .item-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+        }
+
+        .badge-special {
+            background: rgba(212, 175, 55, 0.25);
+            color: #fde047;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.45);
+        }
+
+        .item-desc {
+            font-size: 12px;
+            color: #cbd5e1;
+            line-height: 1.35;
+        }
+
+        .item-price {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #d4af37;
+            margin-top: 2px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ١. ڤیدیۆیا باریستای -->
+    <video class="bg-video" autoplay loop muted playsinline>
+        <source src="bg-video.mp4" type="video/mp4">
+    </video>
+
+    <!-- ٢. پەردەیا سڤک -->
+    <div class="bg-overlay"></div>
+
+    <div class="app-container">
+
+        <!-- ================= لاپەرێ سەرەکی (Landing View) ================= -->
+        <div id="landingView">
+            <header>
+                <div class="brand-logo-wrap">
+                    <img class="brand-logo-img" src="logo.jpg" alt="Logo" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150&auto=format&fit=crop'">
+                    <div class="brand-title">Tchibo <span>Coffee</span></div>
+                </div>
+
+                <div class="lang-switch">
+                    <button class="lang-btn active" onclick="setLang('ku', this)">کوردى</button>
+                    <button class="lang-btn" onclick="setLang('ar', this)">عربي</button>
+                    <button class="lang-btn" onclick="setLang('en', this)">EN</button>
+                </div>
+            </header>
+
+            <div class="hero-section">
+                <span class="heritage-tag" id="heritageText">🇩🇪 Hamburg • Est. 1949</span>
+                <h1 id="heroTitle">کافێیا چیبۆ</h1>
+                <p id="heroSub">ئەزموونا قاوەیا خۆ هەلبژێرە</p>
+            </div>
+
+            <div class="cards-wrapper">
+                <!-- ١. کارتا DRINKS -->
+                <div class="category-card" onclick="openSection('drinks')">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=700&auto=format&fit=crop" alt="Drinks">
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="text-wrap">
+                            <span id="subDrinks"><i class="fa-solid fa-mug-hot"></i> مینیویا قاوە و ڤەخوارنان</span>
+                            <h2 id="titleDrinks">ڤەخوارن (DRINKS)</h2>
+                        </div>
+                        <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </div>
+
+                <!-- ٢. کارتا BAKERY -->
+                <div class="category-card" onclick="openSection('bakery')">
+                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=700&auto=format&fit=crop" alt="Bakery">
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="text-wrap">
+                            <span id="subBakery"><i class="fa-solid fa-cake-candles"></i> کێک و شترودلا ئەڵمانی</span>
+                            <h2 id="titleBakery">شریناهی (BAKERY)</h2>
+                        </div>
+                        <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </div>
+
+                <!-- ٣. کارتا BEANS -->
+                <div class="category-card" onclick="openSection('beans')">
+                    <img src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?w=700&auto=format&fit=crop" alt="Beans">
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="text-wrap">
+                            <span id="subBeans"><i class="fa-solid fa-seedling"></i> ١٠٠٪ عەرەبیکا یا ئەڵمانی</span>
+                            <h2 id="titleBeans">دانکێن قاوێ (BEANS)</h2>
+                        </div>
+                        <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-socials">
+                <a href="#" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-link" title="Snapchat"><i class="fa-brands fa-snapchat"></i></a>
+                <a href="#" class="social-link" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#" class="social-link" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+
+            <p class="footer-text" id="footerCopy">Tchibo Coffee House © 2026 • Hamburg Heritage</p>
+        </div>
+
+        <!-- ================= لاپەرێ مینیویێ (Menu View) ================= -->
+        <div id="menuView">
+            <div class="menu-top-bar">
+                <button class="back-btn" onclick="backToLanding()">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span id="backBtnText">زڤڕین بۆ سەرەتا</span>
+                </button>
+                <div class="section-current-badge" id="sectionCurrentBadge">
+                    <!-- ب رێکا جاڤاسکریپتێ دهێتە دیارکرن -->
+                </div>
+            </div>
+
+            <!-- لێگەڕیان -->
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="ل ناڤ ڤێ بەشێ بگەڕە...">
+            </div>
+
+            <!-- دوگمەیێن فلتەرکرنێ یێن تایبەت ب وی بەشێ هاتینە ڤەکرن -->
+            <div class="categories-nav" id="subTabsNav">
+                <!-- ب رێکا جاڤاسکریپتێ دروست دبیت -->
+            </div>
+
+            <!-- لیستا ئایتمان -->
+            <div class="items-list" id="menuList"></div>
+        </div>
+
+    </div>
+
+    <script>
+        const translations = {
+            ku: {
+                dir: "rtl",
+                heritage: "🇩🇪 هامبۆرگ، ئەڵمانیا • دامەزراندن ١٩٤٩",
+                heroTitle: "کافێیا چیبۆ",
+                heroSub: "ئەزموونا قاوەیا خۆ هەلبژێرە",
+                subDrinks: "مینیویا قاوە و ڤەخوارنان",
+                titleDrinks: "ڤەخوارن (DRINKS)",
+                subBakery: "کێک و شترودلا ئەڵمانی",
+                titleBakery: "شریناهی (BAKERY)",
+                subBeans: "١٠٠٪ عەرەبیکا یا ئەڵمانی",
+                titleBeans: "دانکێن قاوێ (BEANS)",
+                backBtn: "زڤڕین بۆ سەرەتا",
+                searchPlaceholder: "ل ناڤ ڤێ بەشێ بگەڕە...",
+                badgeDrinks: "☕ ڤەخوارن (DRINKS)",
+                badgeBakery: "🍰 شریناهی (BAKERY)",
+                badgeBeans: "🫘 دانکێن قاوێ (BEANS)",
+                tabs: {
+                    all: "هەمی",
+                    hot: "گەرم",
+                    cold: "سار و مۆهیتۆ",
+                    cakes: "کێک و شترودل",
+                    pastries: "کرۆیاسان و وافڵ",
+                    retail: "کیسکێن دانکان"
+                },
+                badgeSpecial: "تایبەت ★",
+                badgeTop: "پڕفرۆش ترین",
+                currency: "د.ع",
+                footer: "Tchibo Coffee House © 2026 • هەمی ماف پاراستینە"
+            },
+            ar: {
+                dir: "rtl",
+                heritage: "🇩🇪 هامبورغ، ألمانيا • تأسست عام ١٩٤٩",
+                heroTitle: "تشيبو كافيه",
+                heroSub: "اختر تجربتك الخاصة",
+                subDrinks: "قائمة القهوة والمشروبات",
+                titleDrinks: "المشروبات (DRINKS)",
+                subBakery: "الحلويات والكيك الألماني",
+                titleBakery: "المخبوزات (BAKERY)",
+                subBeans: "حبوب بن أرابيكا ألمانية 100%",
+                titleBeans: "حبوب القهوة (BEANS)",
+                backBtn: "الرجوع للرئيسية",
+                searchPlaceholder: "ابحث في هذا القسم...",
+                badgeDrinks: "☕ المشروبات (DRINKS)",
+                badgeBakery: "🍰 المخبوزات والحلويات",
+                badgeBeans: "🫘 حبوب القهوة (BEANS)",
+                tabs: {
+                    all: "الكل",
+                    hot: "ساخنة",
+                    cold: "باردة وموهيتو",
+                    cakes: "كيك وسترودل",
+                    pastries: "كرواسون ووافل",
+                    retail: "أكياس الحبوب"
+                },
+                badgeSpecial: "مميز ★",
+                badgeTop: "الأكثر طلباً",
+                currency: "د.ع",
+                footer: "تشيبو كافيه © 2026 • جميع الحقوق محفوظة"
+            },
+            en: {
+                dir: "ltr",
+                heritage: "🇩🇪 Hamburg, Germany • Est. 1949",
+                heroTitle: "Tchibo Coffee",
+                heroSub: "Choose your experience",
+                subDrinks: "Coffee & Beverage Menu",
+                titleDrinks: "DRINKS",
+                subBakery: "Pastries & German Cakes",
+                titleBakery: "BAKERY",
+                subBeans: "100% German Arabica",
+                titleBeans: "COFFEE BEANS",
+                backBtn: "Back to Home",
+                searchPlaceholder: "Search this section...",
+                badgeDrinks: "☕ DRINKS",
+                badgeBakery: "🍰 BAKERY & DESSERTS",
+                badgeBeans: "🫘 COFFEE BEANS",
+                tabs: {
+                    all: "All",
+                    hot: "Hot Coffee",
+                    cold: "Cold & Mojito",
+                    cakes: "Cakes & Strudel",
+                    pastries: "Pastries & Waffles",
+                    retail: "Whole Beans"
+                },
+                badgeSpecial: "Signature ★",
+                badgeTop: "Best Seller",
+                currency: "IQD",
+                footer: "Tchibo Coffee House © 2026 • Hamburg Heritage"
+            }
+        };
+
+        // داتایێن مینیویێ ب جوداکرنا تەمام د ناڤبەرا (drinks ، bakery ، beans)
+        const menuData = [
+            // ================= بەشێ ١: ڤەخوارن (DRINKS) =================
+            {
+                section: "drinks",
+                category: "hot",
+                price: "2,500",
+                badge: "special",
+                img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=200&auto=format&fit=crop",
+                ku: { title: "Tchibo Espresso Siziliano", desc: "ئێسپرێسۆیا تاری یا ڕاستەقینە یا چیبۆ ب شێوازێ ئیتاڵی" },
+                ar: { title: "إسبريسو سيسيليانو تشيبو", desc: "إسبريسو غامق ومكثف بنكهة حبوب تشيبو الفاخرة" },
+                en: { title: "Tchibo Espresso Siziliano", desc: "Intense, dark Southern Italian style roast from Tchibo beans" }
+            },
+            {
+                section: "drinks",
+                category: "hot",
+                price: "3,500",
+                badge: "special",
+                img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&auto=format&fit=crop",
+                ku: { title: "قاوەیا فلترکری یا ئەڵمانی (German Filter)", desc: "قاوەیا کلاسیک یا ئەڵمانی بێهندار ژ دانکێن ١٠٠٪ عەرەبیکا" },
+                ar: { title: "القهوة المقطرة الألمانية الكلاسيكية", desc: "قهوة الصباح الألمانية الأصلية المحضرة من حبوب أرابيكا 100%" },
+                en: { title: "Traditional German Filter Coffee", desc: "Classic German brewed coffee using 100% Tchibo Arabica beans" }
+            },
+            {
+                section: "drinks",
+                category: "hot",
+                price: "4,000",
+                badge: null,
+                img: "https://images.unsplash.com/photo-1534778101976-62847782c213?w=200&auto=format&fit=crop",
+                ku: { title: "کاپوچینۆ میلانو (Cappuccino Milano)", desc: "قاوەیا چیبۆ دگەل کەفا شیری یا مەخمەلی و تۆزا کاکاوێ" },
+                ar: { title: "كابتشينو ميلانو", desc: "قهوة تشيبو المتوازنة مع رغوة حليب مخملية ولمسة كاكاو" },
+                en: { title: "Cappuccino Milano", desc: "Mild northern roast espresso with silky milk foam and cocoa dust" }
+            },
+            {
+                section: "drinks",
+                category: "hot",
+                price: "4,500",
+                badge: null,
+                img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=200&auto=format&fit=crop",
+                ku: { title: "ڤانێلا لاتی (Vanilla Latte)", desc: "شیرێ گەرم، شۆتەکێ ئێسپرێسۆ دگەل تامێ ڤانێلا مەدەغەشقەر" },
+                ar: { title: "فانيلا لاتيه", desc: "حليب ساخن مبخر مع إسبريسو ونكهة الفانيلا الطبيعية" },
+                en: { title: "Madagascar Vanilla Latte", desc: "Smooth steamed milk, espresso shot infused with rich vanilla" }
+            },
+            {
+                section: "drinks",
+                category: "cold",
+                price: "5,000",
+                badge: "top",
+                img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=200&auto=format&fit=crop",
+                ku: { title: "ئایس کارامێل مۆکیاتۆ چیبۆ", desc: "ئێسپرێسۆیا سار دگەل شیر، بەفر و سۆسا کارامێلا زێڕی" },
+                ar: { title: "آيس كراميل ماكياتو تشيبو", desc: "إسبريسو بارد، حليب مثلج مع طبقات صوص الكراميل الفاخر" },
+                en: { title: "Tchibo Iced Caramel Macchiato", desc: "Chilled espresso layered over cold milk, ice, and golden caramel" }
+            },
+            {
+                section: "drinks",
+                category: "cold",
+                price: "4,500",
+                badge: null,
+                img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=200&auto=format&fit=crop",
+                ku: { title: "مۆهیتۆ پێشن فرووت (Passion Fruit)", desc: "نەعنەعا فرێش، لیمۆن، پێشن فرووت دگەل سۆدایا تەزینۆک" },
+                ar: { title: "موهيتو الباشن فروت المنعش", desc: "نعناع طازج، ليمون، فاكهة الباشن فروت وصودا منعشة" },
+                en: { title: "Passion Fruit Mojito", desc: "Muddled mint, fresh lime, tropical passion fruit, and bubbly soda" }
+            },
+            {
+                section: "drinks",
+                category: "cold",
+                price: "5,000",
+                badge: null,
+                img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=200&auto=format&fit=crop",
+                ku: { title: "فرابێ شوکولاتەیا تاری (Dark Choc Frappe)", desc: "تێکەلێ بەستەنی، شیری و شوکولاتەیا ئەڵمانی دگەل کرێمێ" },
+                ar: { title: "فرابيه الشوكولاتة الداكنة", desc: "مزيج منعش من القهوة، الشوكولاتة الألمانية الداكنة والكريمة" },
+                en: { title: "Dark Chocolate Frappé", desc: "Blended coffee with rich German dark chocolate and whipped cream" }
+            },
+
+            // ================= بەشێ ٢: شریناهی (BAKERY & SWEETS) =================
+            {
+                section: "bakery",
+                category: "cakes",
+                price: "5,000",
+                badge: "special",
+                img: "https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=200&auto=format&fit=crop",
+                ku: { title: "ئەپڵ شترودلا ئەڵمانی (Apfelstrudel)", desc: "شترودلا ناڤدار یا ئەڵمانی ب سێڤ و دارچینێ دگەل دۆندرمایێ" },
+                ar: { title: "أبل سترودل ألماني كلاسيكي", desc: "حلوى التفاح الألمانية التقليدية مع القرفة وآيس كريم الفانيلا" },
+                en: { title: "Traditional German Apple Strudel", desc: "Warm spiced apple pastry served with classic vanilla ice cream" }
+            },
+            {
+                section: "bakery",
+                category: "cakes",
+                price: "5,500",
+                badge: "special",
+                img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=200&auto=format&fit=crop",
+                ku: { title: "کێکا دارستانا رەش (Black Forest)", desc: "کێکا شوکولاتەیا ئەڵمانی (شوارتزڤاڵد) دگەل گێلاس و کرێمێ" },
+                ar: { title: "كيكة الغابة السوداء (بلاك فورست)", desc: "كيكة الشوكولاتة الألمانية الشهيرة مع طبقات الكرز والكريمة" },
+                en: { title: "Black Forest Gateau (Schwarzwald)", desc: "Authentic German chocolate sponge layered with cherries and cream" }
+            },
+            {
+                section: "bakery",
+                category: "cakes",
+                price: "5,000",
+                badge: null,
+                img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=200&auto=format&fit=crop",
+                ku: { title: "چیزکێک سان سێباستیان", desc: "دگەل سۆسا شوکولاتەیا بلجیکی یا گەرم" },
+                ar: { title: "تشيز كيك سان سيباستيان", desc: "يقدم مع صوص الشوكولاتة البلجيكية الغنية" },
+                en: { title: "San Sebastian Cheesecake", desc: "Burnt Basque style cheesecake drizzled with warm Belgian chocolate" }
+            },
+            {
+                section: "bakery",
+                category: "pastries",
+                price: "4,500",
+                badge: null,
+                img: "https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=200&auto=format&fit=crop",
+                ku: { title: "وافڵ شوکولاتە و فێقی (Waffle)", desc: "وافڵێ کریپسی یێ گەرم دگەل نۆتێلا و فێقیێ فرێش" },
+                ar: { title: "وافل بالشوكولاتة والفواكه", desc: "وافل مقرمش يقدم ساخناً مع صوص الشوكولاتة والفواكه" },
+                en: { title: "Belgian Chocolate Waffle", desc: "Crispy warm waffle drizzled with chocolate and fresh berries" }
+            },
+            {
+                section: "bakery",
+                category: "pastries",
+                price: "3,000",
+                badge: null,
+                img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=200&auto=format&fit=crop",
+                ku: { title: "کرۆیاسان ب کەرەیا فەرەنسی", desc: "کرۆیاسانا نه‌رم و تازە یا برژاندی دگەل قاوێ" },
+                ar: { title: "كرواسون بالزبدة الفرنسية", desc: "كرواسون طازج وهش محضر بالزبدة الطبيعية" },
+                en: { title: "French Butter Croissant", desc: "Flaky, buttery freshly baked golden croissant" }
+            },
+
+            // ================= بەشێ ٣: دانکێن قاوێ (COFFEE BEANS) =================
+            {
+                section: "beans",
+                category: "retail",
+                price: "22,000",
+                badge: "special",
+                img: "https://images.unsplash.com/photo-1587734195503-904fca47e0e9?w=200&auto=format&fit=crop",
+                ku: { title: "Tchibo Barista Espresso (1 KG)", desc: "کیسکێ دانکێن قاوەیا برژاندی یا تایبەت ب مەکینەیا ئێسپرێسۆ" },
+                ar: { title: "حبوب تشيبو باريستا إسبريسو (1 كغم)", desc: "كيس حبوب بن محمص ببطء مثالي للإسبريسو المنزلي والاحترافي" },
+                en: { title: "Tchibo Barista Espresso Beans (1KG)", desc: "Slow roasted premium whole beans, perfect for intense espresso" }
+            },
+            {
+                section: "beans",
+                category: "retail",
+                price: "15,000",
+                badge: null,
+                img: "https://images.unsplash.com/photo-1610632380989-680fe40816c6?w=200&auto=format&fit=crop",
+                ku: { title: "Tchibo Feine Milde Filter (500g)", desc: "دانکێن ١٠٠٪ عەرەبیکا یا نەرم تایبەت بۆ قاوەیا فلترکری و V60" },
+                ar: { title: "حبوب تشيبو فاين ميلدي للفلتر (500 غ)", desc: "حبوب أرابيكا 100% بنكهة معتدلة مخصصة للقهوة المقطرة" },
+                en: { title: "Tchibo Feine Milde Beans (500g)", desc: "100% Arabica delicate roast, ideal for drip & filter coffee" }
+            }
+        ];
+
+        let currentLang = 'ku';
+        let currentSection = 'drinks';
+        let currentSubCategory = 'all';
+
+        // گوهۆڕینا زمانان
+        function setLang(lang, btn) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.getElementById('heritageText').innerText = t.heritage;
+            document.getElementById('heroTitle').innerText = t.heroTitle;
+            document.getElementById('heroSub').innerText = t.heroSub;
+            
+            document.getElementById('subDrinks').innerHTML = `<i class="fa-solid fa-mug-hot"></i> ${t.subDrinks}`;
+            document.getElementById('titleDrinks').innerText = t.titleDrinks;
+            
+            document.getElementById('subBakery').innerHTML = `<i class="fa-solid fa-cake-candles"></i> ${t.subBakery}`;
+            document.getElementById('titleBakery').innerText = t.titleBakery;
+            
+            document.getElementById('subBeans').innerHTML = `<i class="fa-solid fa-seedling"></i> ${t.subBeans}`;
+            document.getElementById('titleBeans').innerText = t.titleBeans;
+            
+            document.getElementById('footerCopy').innerText = t.footer;
+
+            document.getElementById('backBtnText').innerText = t.backBtn;
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+
+            // ئەگەر مینیو ڤەکری بیت، دوبارە دوگمەیێن پۆلان و ئایتمان نووبکە
+            if (document.getElementById('menuView').style.display === 'block') {
+                updateSectionHeader();
+                renderSubTabs();
+                renderItems();
+            }
+        }
+
+        // ڤەکرنا هەر بەشەکی ب جودایی
+        function openSection(sectionName) {
+            currentSection = sectionName;
+            currentSubCategory = 'all';
+
+            document.getElementById('landingView').style.display = 'none';
+            document.getElementById('menuView').style.display = 'block';
+
+            updateSectionHeader();
+            renderSubTabs();
+            renderItems();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // زڤڕین بۆ لاپەرێ سەرەکی
+        function backToLanding() {
+            document.getElementById('menuView').style.display = 'none';
+            document.getElementById('landingView').style.display = 'flex';
+            document.getElementById('searchInput').value = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateSectionHeader() {
+            const t = translations[currentLang];
+            const badge = document.getElementById('sectionCurrentBadge');
+            if (currentSection === 'drinks') {
+                badge.innerText = t.badgeDrinks;
+            } else if (currentSection === 'bakery') {
+                badge.innerText = t.badgeBakery;
+            } else if (currentSection === 'beans') {
+                badge.innerText = t.badgeBeans;
+            }
+        }
+
+        // دروستکرنا دوگمەیێن فلتەرکرنێ ب ئایکۆنان ل دویڤ هەر بەشەکی
+        function renderSubTabs() {
+            const tabsNav = document.getElementById('subTabsNav');
+            const t = translations[currentLang];
+            tabsNav.innerHTML = '';
+
+            let tabsList = [];
+
+            if (currentSection === 'drinks') {
+                tabsList = [
+                    { id: 'all', label: t.tabs.all, icon: 'fa-solid fa-border-all' },
+                    { id: 'hot', label: t.tabs.hot, icon: 'fa-solid fa-mug-hot' },
+                    { id: 'cold', label: t.tabs.cold, icon: 'fa-solid fa-snowflake' }
+                ];
+            } else if (currentSection === 'bakery') {
+                tabsList = [
+                    { id: 'all', label: t.tabs.all, icon: 'fa-solid fa-border-all' },
+                    { id: 'cakes', label: t.tabs.cakes, icon: 'fa-solid fa-cake-candles' },
+                    { id: 'pastries', label: t.tabs.pastries, icon: 'fa-solid fa-bread-slice' }
+                ];
+            } else if (currentSection === 'beans') {
+                tabsList = [
+                    { id: 'all', label: t.tabs.all, icon: 'fa-solid fa-border-all' },
+                    { id: 'retail', label: t.tabs.retail, icon: 'fa-solid fa-seedling' }
+                ];
+            }
+
+            tabsList.forEach(tab => {
+                const activeClass = (tab.id === currentSubCategory) ? 'active' : '';
+                const btn = document.createElement('button');
+                btn.className = `tab-btn ${activeClass}`;
+                btn.innerHTML = `<i class="${tab.icon}"></i> ${tab.label}`;
+                btn.onclick = () => {
+                    currentSubCategory = tab.id;
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderItems();
+                };
+                tabsNav.appendChild(btn);
+            });
+        }
+
+        // نیشادانا بتنێ ئەو ئایتمێن سەر ب وی بەشێ ڤە
+        function renderItems() {
+            const listContainer = document.getElementById('menuList');
+            const t = translations[currentLang];
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            listContainer.innerHTML = '';
+
+            // فلتەرکرن ل دویڤ بەشێ سەرەکی (DRINKS یان BAKERY یان BEANS)
+            const sectionItems = menuData.filter(item => item.section === currentSection);
+
+            sectionItems.forEach(item => {
+                const matchCategory = (currentSubCategory === 'all' || item.category === currentSubCategory);
+                const itemInfo = item[currentLang];
+                const matchSearch = itemInfo.title.toLowerCase().includes(searchQuery) || itemInfo.desc.toLowerCase().includes(searchQuery);
+
+                if (matchCategory && matchSearch) {
+                    let badgeHtml = '';
+                    if (item.badge === 'special') {
+                        badgeHtml = `<span class="badge-special">${t.badgeSpecial}</span>`;
+                    } else if (item.badge === 'top') {
+                        badgeHtml = `<span class="badge-special">${t.badgeTop}</span>`;
+                    }
+
+                    const cardHtml = `
+                        <div class="item-card">
+                            <img class="item-img" src="${item.img}" alt="${itemInfo.title}">
+                            <div class="item-details">
+                                <div class="item-header">
+                                    <span class="item-title">${itemInfo.title}</span>
+                                    ${badgeHtml}
+                                </div>
+                                <p class="item-desc">${itemInfo.desc}</p>
+                                <span class="item-price">${item.price} ${t.currency}</span>
+                            </div>
+                        </div>
+                    `;
+                    listContainer.innerHTML += cardHtml;
+                }
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', renderItems);
+    </script>
+
+</body>
+</html>
