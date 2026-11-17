@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html lang="ku" dir="rtl" id="htmlTag">
+<html lang="ku" dir="rtl" id="htmlTag" translate="no" class="notranslate">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- قەدەغەکرنا وەرگێڕانا خۆکار یا گۆگڵ کرۆمێ دا زمان تێک نەچن -->
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ku, ckb, ar, en">
     <title id="pageDocTitle">Tchibo Coffee House</title>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -184,7 +187,6 @@
             transition: border-color 0.4s ease;
         }
 
-        /* نیشانا بارکرنا ئۆنلاین */
         .sync-status-dot {
             width: 8px;
             height: 8px;
@@ -293,7 +295,6 @@
             flex-direction: column;
             gap: 14px;
             margin-top: 10px;
-            animation: fadeIn 0.3s ease;
         }
 
         .hero-section {
@@ -538,7 +539,6 @@
         #menuView {
             display: none;
             margin-top: 12px;
-            animation: fadeIn 0.3s ease;
         }
 
         .menu-top-bar {
@@ -548,6 +548,13 @@
             margin-bottom: 12px;
             padding-bottom: 10px;
             border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background: rgba(10, 12, 16, 0.92);
+            backdrop-filter: blur(8px);
+            z-index: 15;
+            padding-top: 6px;
+            border-radius: 12px;
         }
 
         .back-btn {
@@ -773,7 +780,7 @@
             align-items: center;
             flex-direction: column;
             padding: 18px;
-            animation: fadeIn 0.22s ease;
+            animation: fadeIn 0.2s ease;
         }
 
         .lightbox-content {
@@ -1096,12 +1103,12 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.97); }
+            from { opacity: 0; transform: scale(0.98); }
             to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
-<body>
+<body translate="no" class="notranslate">
 
     <video class="bg-video" autoplay loop muted playsinline>
         <source src="bg-video.mp4" type="video/mp4">
@@ -1109,23 +1116,23 @@
     <div class="bg-overlay"></div>
     <div class="seasonal-effects" id="seasonalEffects"></div>
 
-    <div class="app-container">
+    <div class="app-container" translate="no">
 
-        <!-- هێدەر دگەل لۆگۆ، ٤ زمانان و دوگمەیا ئەدمینی -->
-        <header>
+        <!-- هێدەر دگەل لۆگۆ، ٤ زمانان (پاراستی ژ تێکدانا گۆگڵی) و دوگمەیا ئەدمینی -->
+        <header translate="no" class="notranslate">
             <div class="brand-logo-wrap">
                 <img class="brand-logo-img" id="brandLogoImg" src="logo.jpg" alt="Logo" onclick="openLightbox(this.src, document.getElementById('brandTitleText').innerText, '', '')" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150&auto=format&fit=crop'">
                 <div class="brand-title" id="brandTitleText">Tchibo <span>Coffee</span></div>
             </div>
 
-            <div class="header-actions">
-                <div class="lang-switch">
-                    <button class="lang-btn active" onclick="setLang('ku', this)">بەهدینی</button>
-                    <button class="lang-btn" onclick="setLang('ckb', this)">سۆرانی</button>
-                    <button class="lang-btn" onclick="setLang('ar', this)">عربي</button>
-                    <button class="lang-btn" onclick="setLang('en', this)">EN</button>
+            <div class="header-actions" translate="no">
+                <div class="lang-switch notranslate" translate="no">
+                    <button type="button" class="lang-btn active notranslate" translate="no" onclick="setLang('ku', this)">بەهدینی</button>
+                    <button type="button" class="lang-btn notranslate" translate="no" onclick="setLang('ckb', this)">سۆرانی</button>
+                    <button type="button" class="lang-btn notranslate" translate="no" onclick="setLang('ar', this)">عربي</button>
+                    <button type="button" class="lang-btn notranslate" translate="no" onclick="setLang('en', this)">EN</button>
                 </div>
-                <button class="admin-trigger-btn" onclick="openAdminModal()" title="Admin">
+                <button type="button" class="admin-trigger-btn" onclick="openAdminModal()" title="Admin">
                     <i class="fa-solid fa-sliders"></i>
                 </button>
             </div>
@@ -1162,7 +1169,7 @@
         <!-- ================= ٢. لاپەرێ مینیویا ئایتمان (Menu View) ================= -->
         <div id="menuView">
             <div class="menu-top-bar">
-                <button class="back-btn" onclick="backToLanding()">
+                <button type="button" class="back-btn" onclick="backToLanding()">
                     <i class="fa-solid fa-arrow-right"></i>
                     <span id="backBtnText">زڤڕین بۆ سەرەتا</span>
                 </button>
@@ -1182,7 +1189,7 @@
     <!-- ================= پەنجەرا مەزنکرنا وێنەی دەمێ مشتەری تبلێ لێ ددەت (Lightbox Zoom) ================= -->
     <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox(event)">
         <div class="lightbox-content" onclick="event.stopPropagation()">
-            <button class="lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
+            <button type="button" class="lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
             <img class="lightbox-img" id="lightboxImg" src="" alt="">
             <div class="lightbox-caption">
                 <h3 id="lightboxTitle"></h3>
@@ -1193,11 +1200,11 @@
     </div>
 
     <!-- ================= ٣. پانێلێ ئەدمینی ب هەمی زمانان + Live Cloud Sync ================= -->
-    <div class="admin-modal" id="adminModal">
+    <div class="admin-modal" id="adminModal" translate="no">
         <div class="admin-box">
             <div class="admin-header">
                 <h3><i class="fa-solid fa-crown"></i> <span id="admHeaderTitle">پانێلێ ڕێڤەبەری (Admin)</span></h3>
-                <button class="close-admin" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
+                <button type="button" class="close-admin" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
             <!-- چووناژوور -->
@@ -1206,7 +1213,7 @@
                     <label id="lblEnterPin">ڕەقەم سری (PIN) بنڤیسە:</label>
                     <input type="password" id="adminPinInput" placeholder="****">
                 </div>
-                <button class="save-btn" id="btnLogin" onclick="verifyAdminPin()">چووناژوور</button>
+                <button type="button" class="save-btn" id="btnLogin" onclick="verifyAdminPin()">چووناژوور</button>
                 <span class="forgot-link" id="linkForgotPin" onclick="showRecoverySection()">تە ڕەقەم سری ژبیر کرییە؟</span>
             </div>
 
@@ -1216,20 +1223,20 @@
                     <label id="lblRecoveryPrompt">ئیمێل یان ژمارا تەلەفۆنا تۆمارکری بنڤیسە:</label>
                     <input type="text" id="recoveryInput" placeholder="Email / 0750xxxxxxx">
                 </div>
-                <button class="save-btn" id="btnRecoverPin" onclick="recoverAdminPin()">نیشادانا ڕەقەم سری</button>
+                <button type="button" class="save-btn" id="btnRecoverPin" onclick="recoverAdminPin()">نیشادانا ڕەقەم سری</button>
                 <span class="forgot-link" id="linkBackLogin" onclick="backToAdminLogin()">زڤڕین بۆ چووناژوور</span>
             </div>
 
             <!-- داشبۆردا سەرەکی یا ئەدمینی -->
             <div id="adminDashboardSection" style="display: none;">
                 <div class="admin-tabs">
-                    <button class="admin-tab-btn active" id="tabBtnSections" onclick="switchAdminTab('sections')">١. بەشەکان</button>
-                    <button class="admin-tab-btn" id="tabBtnItems" onclick="switchAdminTab('items')">٢. ئایتمەکان</button>
-                    <button class="admin-tab-btn" id="tabBtnDiscounts" onclick="switchAdminTab('discounts')">٣. داشکاندن %</button>
-                    <button class="admin-tab-btn" id="tabBtnThemes" onclick="switchAdminTab('themes')">٤. دیزاین و بۆنە</button>
-                    <button class="admin-tab-btn" id="tabBtnSocial" onclick="switchAdminTab('social')">٥. ئەکاونت و GPS</button>
-                    <button class="admin-tab-btn" id="tabBtnSecurity" onclick="switchAdminTab('security')">٦. ڕەقەم سری</button>
-                    <button class="admin-tab-btn" id="tabBtnCloud" onclick="switchAdminTab('cloud')" style="grid-column: span 3; border-color:#10b981; color:#a7f3d0;">🌐 ٧. گرێدانا ئۆنلاین دگەل مۆبایلا مشتەریان (Live Cloud Sync)</button>
+                    <button type="button" class="admin-tab-btn active" id="tabBtnSections" onclick="switchAdminTab('sections')">١. بەشەکان</button>
+                    <button type="button" class="admin-tab-btn" id="tabBtnItems" onclick="switchAdminTab('items')">٢. ئایتمەکان</button>
+                    <button type="button" class="admin-tab-btn" id="tabBtnDiscounts" onclick="switchAdminTab('discounts')">٣. داشکاندن %</button>
+                    <button type="button" class="admin-tab-btn" id="tabBtnThemes" onclick="switchAdminTab('themes')">٤. دیزاین و بۆنە</button>
+                    <button type="button" class="admin-tab-btn" id="tabBtnSocial" onclick="switchAdminTab('social')">٥. ئەکاونت و GPS</button>
+                    <button type="button" class="admin-tab-btn" id="tabBtnSecurity" onclick="switchAdminTab('security')">٦. ڕەقەم سری</button>
+                    <button type="button" class="admin-tab-btn" id="tabBtnCloud" onclick="switchAdminTab('cloud')" style="grid-column: span 3; border-color:#10b981; color:#a7f3d0;">🌐 ٧. گرێدانا ئۆنلاین دگەل مۆبایلا مشتەریان (Live Cloud Sync)</button>
                 </div>
 
                 <!-- ١. تابا بەشێن سەرەکی -->
@@ -1263,8 +1270,8 @@
                             <input type="file" accept="image/*" onchange="encodeImageFileAsURL(this, 'secImgUrl', 'secImgPreview')">
                         </div>
                     </div>
-                    <button class="save-btn" id="btnAddSection" onclick="saveOrUpdateSection()">+ زێدەکرن / خەزنکرنا بەشی</button>
-                    <button class="cancel-edit-btn" id="cancelSecEditBtn" onclick="resetSectionForm()">هەلوەشاندن (Cancel)</button>
+                    <button type="button" class="save-btn" id="btnAddSection" onclick="saveOrUpdateSection()">+ زێدەکرن / خەزنکرنا بەشی</button>
+                    <button type="button" class="cancel-edit-btn" id="cancelSecEditBtn" onclick="resetSectionForm()">هەلوەشاندن (Cancel)</button>
 
                     <hr style="border-color: rgba(255,255,255,0.12); margin: 14px 0;">
                     <div id="adminSectionsList"></div>
@@ -1329,8 +1336,8 @@
                             <option value="top">🔥 Best Seller / پڕفرۆش</option>
                         </select>
                     </div>
-                    <button class="save-btn" id="saveItemBtn" onclick="saveOrUpdateMenuItem()">+ زێدەکرن / خەزنکرنا ئایتمی</button>
-                    <button class="cancel-edit-btn" id="cancelEditBtn" onclick="resetItemForm()">هەلوەشاندن (Cancel)</button>
+                    <button type="button" class="save-btn" id="saveItemBtn" onclick="saveOrUpdateMenuItem()">+ زێدەکرن / خەزنکرنا ئایتمی</button>
+                    <button type="button" class="cancel-edit-btn" id="cancelEditBtn" onclick="resetItemForm()">هەلوەشاندن (Cancel)</button>
 
                     <hr style="border-color: rgba(255,255,255,0.12); margin: 14px 0;">
                     <div id="adminItemsList"></div>
@@ -1366,22 +1373,22 @@
                         <label>نڤیسینا ئۆفەرێ (English)</label>
                         <input type="text" id="globalPromoTextEn" placeholder="Buy 1 Coffee, Get 1 Free Gift!">
                     </div>
-                    <button class="save-btn" id="btnSavePromo" onclick="savePromoSettings()">خەزنکرنا داشکاندنێ</button>
+                    <button type="button" class="save-btn" id="btnSavePromo" onclick="savePromoSettings()">خەزنکرنا داشکاندنێ</button>
                 </div>
 
                 <!-- ٤. تابا دیزاین، Black Friday و هەلکەفتێن سالێ و پرۆفایلی -->
                 <div id="adminThemesTab" style="display: none;">
                     <label id="lblChooseTheme" style="display:block; font-size:12px; margin-bottom:8px; color:var(--accent-light);">ستایل و هەلکەفتێ هەلبژێرە (دیزاین دێ هەمی گوهۆڕیت):</label>
                     <div class="theme-grid">
-                        <button class="theme-card-btn" onclick="selectTheme('default')">👑 Royal Default</button>
-                        <button class="theme-card-btn" onclick="selectTheme('blackfriday')">🖤 Black Friday 🏷️</button>
-                        <button class="theme-card-btn" onclick="selectTheme('newroz')">🔥 Newroz / نەورۆز</button>
-                        <button class="theme-card-btn" onclick="selectTheme('newyear')">❄️ New Year / سەرێ سالێ</button>
-                        <button class="theme-card-btn" onclick="selectTheme('ramadan')">🌙 Ramadan / رەمەزان</button>
-                        <button class="theme-card-btn" onclick="selectTheme('eid')">🎉 Eid / جەژن</button>
-                        <button class="theme-card-btn" onclick="selectTheme('summer')">☀️ Summer / هاڤین</button>
-                        <button class="theme-card-btn" onclick="selectTheme('autumn')">🍁 Autumn / پاییز</button>
-                        <button class="theme-card-btn" onclick="selectTheme('coffeeday')">☕ Coffee Day</button>
+                        <button type="button" class="theme-card-btn" onclick="selectTheme('default')">👑 Royal Default</button>
+                        <button type="button" class="theme-card-btn" onclick="selectTheme('blackfriday')">🖤 Black Friday 🏷️</button>
+                        <button type="button" class="theme-card-btn" onclick="selectTheme('newroz')">🔥 Newroz / نەورۆز</button>
+                        <button type="button" class="theme-card-btn" onclick="selectTheme('newyear')">❄️ New Year / سەرێ سالێ</button>
+                        <button type="button" class="theme-card-btn" onclick="selectTheme('ramadan')">🌙 Ramadan / رەمەزان</button>
+                        <button type="button" class="theme-card-btn" onclick="selectTheme('eid')">🎉 Eid / جەژن</button>
+                        <button type="button" class="theme-card-btn" onclick="selectTheme('summer')">☀️ Summer / هاڤین</button>
+                        <button type="button" class="theme-card-btn" onclick="selectTheme('autumn')">🍁 Autumn / پاییز</button>
+                        <button type="button" class="theme-card-btn" onclick="selectTheme('coffeeday')">☕ Coffee Day</button>
                     </div>
 
                     <hr style="border-color: rgba(255,255,255,0.12); margin: 14px 0;">
@@ -1397,7 +1404,7 @@
                         <label id="lblCafeName">ناڤێ کافێیێ و تابا لینکێ (Brand & Link Title)</label>
                         <input type="text" id="inpCafeName" placeholder="Tchibo Coffee">
                     </div>
-                    <button class="save-btn" id="btnSaveBrand" onclick="saveBrandSettings()">خەزنکرنا پرۆفایل و ستایلی</button>
+                    <button type="button" class="save-btn" id="btnSaveBrand" onclick="saveBrandSettings()">خەزنکرنا پرۆفایل و ستایلی</button>
                 </div>
 
                 <!-- ٥. تابا تەلەفۆن، GPS و سۆشیال میدیایێ -->
@@ -1426,7 +1433,7 @@
                         <label><i class="fa-brands fa-tiktok"></i> TikTok</label>
                         <input type="url" id="inpTiktok" placeholder="https://tiktok.com/@...">
                     </div>
-                    <button class="save-btn" id="btnSaveSocial" onclick="saveSocialSettings()">خەزنکرن</button>
+                    <button type="button" class="save-btn" id="btnSaveSocial" onclick="saveSocialSettings()">خەزنکرن</button>
                 </div>
 
                 <!-- ٦. تابا ڕەقەم سری و زڤڕاندنێ -->
@@ -1443,30 +1450,29 @@
                         <label id="lblRecPhone"><i class="fa-solid fa-mobile-screen"></i> تەلەفۆنا زڤڕاندنێ (Recovery Phone)</label>
                         <input type="tel" id="secRecoveryPhone" placeholder="0750xxxxxxx">
                     </div>
-                    <button class="save-btn" id="btnSaveSecurity" onclick="saveSecuritySettings()">خەزنکرن</button>
+                    <button type="button" class="save-btn" id="btnSaveSecurity" onclick="saveSecuritySettings()">خەزنکرن</button>
                 </div>
 
                 <!-- ٧. تابا گرێدانا ئۆنلاین دا ل نک هەمی مشتەریان ئێکسەر بگوهۆڕیت (Live Cloud Sync) -->
                 <div id="adminCloudTab" style="display: none;">
                     <div class="cloud-info-box">
-                        <strong>🌐 چەوا گوهۆرینێن مۆبایلا ئەدمینی ئێکسەر ل سەر مۆبایلا مشتەریان دیار دبن؟</strong><br>
-                        ١. یان لینکێ <b>Firebase Realtime Database</b> دابنێ (نموونە: <code>https://your-cafe-default-rtdb.firebaseio.com</code>).<br>
-                        ٢. یان ژی ناڤێ ریپۆزیتۆریا خۆ یا <b>GitHub</b> (نموونە: <code>username/repo</code>) دگەل <b>GitHub Token</b> دابنێ. هەر گاڤا تو ل مۆبایلا خۆ تشتەکی زێدە بکەی یان بگوهۆری، دێ ئێکسەر ل نک هەمی مشتەریان هێتە گوهۆرین!
+                        <strong>🌐 گرێدانا ڕاستەوخۆ دگەل داتابەیسا تە یا Firebase چالاکە!</strong><br>
+                        هەر گوهۆرینەکا تو ل سەر مۆبایلێ بکەی (ڕەقەم سری، ئەکاونت، ئایتم، یان ستایل)، دێ بۆ هەتاهەتایێ د ناڤ داتابەیسا تە دا هێتە خەزنکرن و چ جاران ژێناچیت!
                     </div>
                     <div class="form-group">
-                        <label><i class="fa-solid fa-cloud"></i> رێکا ١: Firebase Realtime Database URL (ئەگەر هەبیت)</label>
-                        <input type="url" id="inpFirebaseUrl" placeholder="https://your-project-default-rtdb.firebaseio.com">
+                        <label><i class="fa-solid fa-cloud"></i> Firebase Realtime Database URL</label>
+                        <input type="url" id="inpFirebaseUrl" placeholder="https://tchibo-duhok-default-rtdb.firebaseio.com/">
                     </div>
                     <hr style="border-color: rgba(255,255,255,0.12); margin: 12px 0;">
                     <div class="form-group">
-                        <label><i class="fa-brands fa-github"></i> رێکا ٢: GitHub Repository (username/repo)</label>
-                        <input type="text" id="inpGithubRepo" placeholder="username/tchibo-menu">
+                        <label><i class="fa-brands fa-github"></i> GitHub Repository (ئارەزوومەندانە)</label>
+                        <input type="text" id="inpGithubRepo" placeholder="shex90/tchibo-menu">
                     </div>
                     <div class="form-group">
-                        <label><i class="fa-solid fa-lock"></i> GitHub Personal Access Token (ghp_...)</label>
+                        <label><i class="fa-solid fa-lock"></i> GitHub Token (ئارەزوومەندانە)</label>
                         <input type="password" id="inpGithubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
                     </div>
-                    <button class="save-btn" onclick="saveCloudConfigAndSync()">🌐 خەزنکرن و بەلاڤکرنا مینیویێ بۆ هەمی مشتەریان (Publish Live)</button>
+                    <button type="button" class="save-btn" onclick="saveCloudConfigAndSync()">🌐 خەزنکرن و بەلاڤکرنا مینیویێ بۆ هەمی مشتەریان (Publish Live)</button>
                 </div>
 
             </div>
@@ -1475,10 +1481,9 @@
 
     <script>
         /* =========================================================================
-           گەلەک گرنگ: ئەگەر تە لینکێ Firebase چێکر، ل ڤێرە د ناڤ نیشانێن "" دا دابنێ
-           دا کو هەمی مۆبایلێن مشتەریان ڕاستەوخۆ ژ وێرێ داتایان وەربگرن:
+           لینکێ تە یێ فەرمی یێ Firebase ل ڤێرە یێ جێگیرە دا چ جاران داتایێن تە ژێنەچن:
         ========================================================================= */
-        const DEFAULT_CLOUD_URL = "https://tchibo-duhok-default-rtdb.firebaseio.com/"; // نموونە: "https://tchibo-menu-default-rtdb.firebaseio.com"
+        const DEFAULT_CLOUD_URL = "https://tchibo-duhok-default-rtdb.firebaseio.com/";
 
         /* ================= ١. وەرگێڕانا تەمام ب ٤ زمانان ================= */
         const translations = {
@@ -1804,26 +1809,60 @@
 
         const defaultSecurityData = { pin: "1234", email: "", phone: "" };
 
-        let sectionsData = JSON.parse(localStorage.getItem('tchibo_sections_v4')) || defaultSections;
-        let menuData = JSON.parse(localStorage.getItem('tchibo_items_v4')) || defaultMenuData;
-        let promoSettings = JSON.parse(localStorage.getItem('tchibo_promo_v4')) || defaultPromoSettings;
-        let brandSettings = JSON.parse(localStorage.getItem('tchibo_brand_v4')) || defaultBrandSettings;
-        let socialData = JSON.parse(localStorage.getItem('tchibo_social_v4')) || defaultSocialData;
-        let securityData = JSON.parse(localStorage.getItem('tchibo_security_v4')) || defaultSecurityData;
-        let cloudConfig = JSON.parse(localStorage.getItem('tchibo_cloud_config')) || {
+        // وەرگرتنا داتایان ژ خەزنەیا هەمیشەیی یان ژ ڤێرژنێن کەڤن دا چ تشت ژێنەچیت
+        function loadSavedOrFallback(permKey, oldKeys, fallbackVal) {
+            const perm = localStorage.getItem(permKey);
+            if (perm) {
+                try { return JSON.parse(perm); } catch(e) {}
+            }
+            for (const k of oldKeys) {
+                const old = localStorage.getItem(k);
+                if (old) {
+                    try {
+                        const parsed = JSON.parse(old);
+                        localStorage.setItem(permKey, JSON.stringify(parsed));
+                        return parsed;
+                    } catch(e) {}
+                }
+            }
+            return fallbackVal;
+        }
+
+        let sectionsData = loadSavedOrFallback('tchibo_perm_sections', ['tchibo_sections_v4', 'tchibo_sections_v3', 'tchibo_sections_v2'], defaultSections);
+        let menuData = loadSavedOrFallback('tchibo_perm_items', ['tchibo_items_v4', 'tchibo_items_v3', 'tchibo_items_v2', 'tchibo_menu_items'], defaultMenuData);
+        let promoSettings = loadSavedOrFallback('tchibo_perm_promo', ['tchibo_promo_v4', 'tchibo_promo_v3', 'tchibo_promo_v2'], defaultPromoSettings);
+        let brandSettings = loadSavedOrFallback('tchibo_perm_brand', ['tchibo_brand_v4', 'tchibo_brand_v3', 'tchibo_brand_v2'], defaultBrandSettings);
+        let socialData = loadSavedOrFallback('tchibo_perm_social', ['tchibo_social_v4', 'tchibo_social_v3', 'tchibo_social_v2', 'tchibo_social_links'], defaultSocialData);
+        let securityData = loadSavedOrFallback('tchibo_perm_security', ['tchibo_security_v4', 'tchibo_security_v3', 'tchibo_security_v2', 'tchibo_security_data'], defaultSecurityData);
+        let cloudConfig = loadSavedOrFallback('tchibo_perm_cloud', ['tchibo_cloud_config'], {
             firebaseUrl: DEFAULT_CLOUD_URL,
             githubRepo: "",
             githubToken: ""
-        };
+        });
 
-        let currentLang = 'ku';
+        if (!cloudConfig.firebaseUrl) cloudConfig.firebaseUrl = DEFAULT_CLOUD_URL;
+
+        let currentLang = localStorage.getItem('tchibo_perm_lang') || 'ku';
         let currentSection = 'drinks';
 
-        /* ================= ٣. سیستەمێ Live Cloud Sync بۆ هەمی مۆبایلێن مشتەریان ================= */
+        // خەزنکرنا جهێ سکرۆڵێ دا مشتەری دەمێ دزڤڕیت نەچیتە سەرێ لیستێ
+        let savedLandingScrollY = 0;
+        let savedSectionScrollMap = {};
+
+        function saveAllToLocalPermanent() {
+            localStorage.setItem('tchibo_perm_sections', JSON.stringify(sectionsData));
+            localStorage.setItem('tchibo_perm_items', JSON.stringify(menuData));
+            localStorage.setItem('tchibo_perm_promo', JSON.stringify(promoSettings));
+            localStorage.setItem('tchibo_perm_brand', JSON.stringify(brandSettings));
+            localStorage.setItem('tchibo_perm_social', JSON.stringify(socialData));
+            localStorage.setItem('tchibo_perm_security', JSON.stringify(securityData));
+            localStorage.setItem('tchibo_perm_cloud', JSON.stringify(cloudConfig));
+        }
+
+        /* ================= ٣. سیستەمێ Live Cloud Sync (هەمی تشت دگەل ڕەقەم سری و ئەکاونتان دهێنە خەزنکرن) ================= */
         async function fetchLiveMenuData() {
             const fbUrl = (cloudConfig.firebaseUrl || DEFAULT_CLOUD_URL || "").trim().replace(/\/$/, "");
             try {
-                // ١. ئەگەر Firebase URL هەبیت، ڕاستەوخۆ داتایێن زیندی ژێ دئینیت
                 if (fbUrl) {
                     const res = await fetch(`${fbUrl}/tchibo_live_menu.json?t=${Date.now()}`);
                     if (res.ok) {
@@ -1834,7 +1873,6 @@
                         }
                     }
                 }
-                // ٢. ئەگەر فایلا data.json د ناڤ GitHub ریپۆزیتۆریێ دا هەبیت، ژ وێرێ دئینیت
                 const localRes = await fetch(`data.json?t=${Date.now()}`);
                 if (localRes.ok) {
                     const data = await localRes.json();
@@ -1842,23 +1880,18 @@
                         applyRemoteBundle(data);
                     }
                 }
-            } catch (e) {
-                // ئەگەر ئۆفلاین بیت، داتایێن ناڤخۆیی کار دکەن
-            }
+            } catch (e) {}
         }
 
         function applyRemoteBundle(bundle) {
-            sectionsData = bundle.sectionsData || sectionsData;
-            menuData = bundle.menuData || menuData;
-            promoSettings = bundle.promoSettings || promoSettings;
-            brandSettings = bundle.brandSettings || brandSettings;
-            socialData = bundle.socialData || socialData;
+            if (bundle.sectionsData) sectionsData = bundle.sectionsData;
+            if (bundle.menuData) menuData = bundle.menuData;
+            if (bundle.promoSettings) promoSettings = bundle.promoSettings;
+            if (bundle.brandSettings) brandSettings = bundle.brandSettings;
+            if (bundle.socialData) socialData = bundle.socialData;
+            if (bundle.securityData && bundle.securityData.pin) securityData = bundle.securityData;
 
-            localStorage.setItem('tchibo_sections_v4', JSON.stringify(sectionsData));
-            localStorage.setItem('tchibo_items_v4', JSON.stringify(menuData));
-            localStorage.setItem('tchibo_promo_v4', JSON.stringify(promoSettings));
-            localStorage.setItem('tchibo_brand_v4', JSON.stringify(brandSettings));
-            localStorage.setItem('tchibo_social_v4', JSON.stringify(socialData));
+            saveAllToLocalPermanent();
 
             applyBrandAndTheme();
             renderSocialLinks();
@@ -1869,13 +1902,16 @@
         }
 
         async function pushLiveMenuData() {
+            saveAllToLocalPermanent();
+
             const payload = {
                 updatedAt: Date.now(),
                 sectionsData,
                 menuData,
                 promoSettings,
                 brandSettings,
-                socialData
+                socialData,
+                securityData
             };
 
             const fbUrl = (cloudConfig.firebaseUrl || DEFAULT_CLOUD_URL || "").trim().replace(/\/$/, "");
@@ -1923,17 +1959,17 @@
 
         function saveCloudConfigAndSync() {
             cloudConfig = {
-                firebaseUrl: document.getElementById('inpFirebaseUrl').value.trim(),
+                firebaseUrl: document.getElementById('inpFirebaseUrl').value.trim() || DEFAULT_CLOUD_URL,
                 githubRepo: document.getElementById('inpGithubRepo').value.trim(),
                 githubToken: document.getElementById('inpGithubToken').value.trim()
             };
-            localStorage.setItem('tchibo_cloud_config', JSON.stringify(cloudConfig));
+            saveAllToLocalPermanent();
             pushLiveMenuData().then(() => {
-                alert('🌐 هەمی گوهۆرین ب سەرکەفتییانە ل سەر ئینتەرنێتێ هاتنە بەلاڤکرن و نوکە ل نک هەمی مشتەریان دیار دبن!');
+                alert('🌐 هەمی گوهۆرین ب سەرکەفتییانە ل سەر ئینتەرنێتێ هاتنە خەزنکرن و چ جاران ژێناچن!');
             });
         }
 
-        /* ================= ٤. بارکرنا وێنەی ژ مۆبایلێ ب قەبارێ گونجای (Compressed Base64) ================= */
+        /* ================= ٤. بارکرنا وێنەی ژ مۆبایلێ ================= */
         function encodeImageFileAsURL(element, targetInputId, previewImgId) {
             const file = element.files[0];
             if (!file) return;
@@ -1974,7 +2010,7 @@
             }
         }
 
-        /* ================= ٥. مەزنکرنا وێنەی دەمێ مشتەری تبلێ لێ ددەت (Lightbox Zoom) ================= */
+        /* ================= ٥. مەزنکرنا وێنەی دەمێ مشتەری تبلێ لێ ددەت (بێی تێکچوونا جهێ سکرۆڵێ) ================= */
         function openLightbox(imgSrc, title, desc, priceText) {
             document.getElementById('lightboxImg').src = imgSrc;
             document.getElementById('lightboxTitle').innerText = title || '';
@@ -1995,7 +2031,7 @@
 
         /* ================= ٦. جێبەجێکرنا هەلکەفتان و ناڤێ لینکێ سەری ================= */
         function applyBrandAndTheme() {
-            document.body.className = '';
+            document.body.className = 'notranslate';
             if (brandSettings.theme && brandSettings.theme !== 'default') {
                 document.body.classList.add('theme-' + brandSettings.theme);
             }
@@ -2100,16 +2136,16 @@
         /* ================= ٨. گوهۆرینا زمانان ================= */
         function setLang(lang, btn) {
             currentLang = lang;
+            localStorage.setItem('tchibo_perm_lang', lang);
             const t = translations[lang];
             const adm = t.admin;
 
             document.getElementById('htmlTag').setAttribute('dir', t.dir);
             document.getElementById('htmlTag').setAttribute('lang', lang);
 
-            if (btn) {
-                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            }
+            document.querySelectorAll('.lang-btn').forEach(b => {
+                b.classList.toggle('active', b.getAttribute('onclick').includes(`'${lang}'`));
+            });
 
             document.getElementById('heritageText').innerText = t.heritage;
             document.getElementById('heroTitle').innerText = t.heroTitle;
@@ -2173,12 +2209,19 @@
             renderAdminSectionsList();
 
             if (document.getElementById('menuView').style.display === 'block') {
-                openSection(currentSection);
+                const secObj = sectionsData.find(s => s.id === currentSection);
+                document.getElementById('sectionCurrentBadge').innerText = secObj ? (secObj[currentLang]?.title || secObj.ku.title) : '';
+                renderItems();
             }
         }
 
-        /* ================= ٩. نیشادانا ئایتمێن مینیویێ ================= */
+        /* ================= ٩. ڤەکرنا بەشی و زڤڕین بۆ هەمان جهێ بەرێ (Scroll Memory) ================= */
         function openSection(sectionId) {
+            // خەزنکرنا جهێ سکرۆڵا لاپەرێ سەرەکی بەری بچیتە د ناڤ فۆلدەری دا
+            if (document.getElementById('landingView').style.display !== 'none') {
+                savedLandingScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+            }
+
             currentSection = sectionId;
             document.getElementById('landingView').style.display = 'none';
             document.getElementById('menuView').style.display = 'block';
@@ -2188,14 +2231,26 @@
             document.getElementById('sectionCurrentBadge').innerText = secTitle;
 
             renderItems();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // ئەگەر مشتەری پێشتر د ناڤ ڤی بەشی دا بوو، بزڤڕینە هەمان جهێ وی یێ ناڤ بەشی
+            const prevSecScroll = savedSectionScrollMap[sectionId] || 0;
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: prevSecScroll, behavior: 'instant' });
+            });
         }
 
         function backToLanding() {
+            // خەزنکرنا جهێ سکرۆڵا ناڤ فۆلدەری بەری بزڤڕیت
+            savedSectionScrollMap[currentSection] = window.scrollY || document.documentElement.scrollTop || 0;
+
             document.getElementById('menuView').style.display = 'none';
             document.getElementById('landingView').style.display = 'flex';
             document.getElementById('searchInput').value = '';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // زڤڕین ڕێک بۆ سەر هەمان کارتا بەشێ کو مشتەری لێ بوو (نە سەرێ لیستێ)
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: savedLandingScrollY, behavior: 'instant' });
+            });
         }
 
         function calculateDiscountedPrice(priceStr, percent) {
@@ -2318,13 +2373,12 @@
                 sectionsData.push(newSec);
             }
 
-            localStorage.setItem('tchibo_sections_v4', JSON.stringify(sectionsData));
             resetSectionForm();
             populateAdminSectionSelect();
             renderMainSections();
             renderAdminSectionsList();
             pushLiveMenuData();
-            alert('بەش ب سەرکەفتییانە هاتە خەزنکرن و نووکرن!');
+            alert('بەش ب سەرکەفتییانە هاتە خەزنکرن!');
         }
 
         function startEditSection(idx) {
@@ -2367,8 +2421,8 @@
                             <strong>${title}</strong>
                         </div>
                         <div class="admin-item-actions">
-                            <button class="edit-item-btn" onclick="startEditSection(${idx})">${adm.editBtn}</button>
-                            <button class="delete-item-btn" onclick="deleteSection(${idx})">${adm.deleteBtn}</button>
+                            <button type="button" class="edit-item-btn" onclick="startEditSection(${idx})">${adm.editBtn}</button>
+                            <button type="button" class="delete-item-btn" onclick="deleteSection(${idx})">${adm.deleteBtn}</button>
                         </div>
                     </div>
                 `;
@@ -2379,7 +2433,6 @@
             if (sectionsData.length <= 1) return alert('بتنێ ١ بەش مایە، ناهێتە ژێبرن!');
             if (!confirm('تە دڤێت ڤی بەشی ژێببەی؟')) return;
             sectionsData.splice(idx, 1);
-            localStorage.setItem('tchibo_sections_v4', JSON.stringify(sectionsData));
             resetSectionForm();
             populateAdminSectionSelect();
             renderMainSections();
@@ -2420,7 +2473,6 @@
                 menuData.unshift(itemObj);
             }
 
-            localStorage.setItem('tchibo_items_v4', JSON.stringify(menuData));
             resetItemForm();
             renderAdminItemsList();
             renderItems();
@@ -2484,8 +2536,8 @@
                         </div>
                     </div>
                     <div class="admin-item-actions">
-                        <button class="edit-item-btn" onclick="startEditMenuItem(${index})">${adm.editBtn}</button>
-                        <button class="delete-item-btn" onclick="deleteMenuItem(${index})">${adm.deleteBtn}</button>
+                        <button type="button" class="edit-item-btn" onclick="startEditMenuItem(${index})">${adm.editBtn}</button>
+                        <button type="button" class="delete-item-btn" onclick="deleteMenuItem(${index})">${adm.deleteBtn}</button>
                     </div>
                 `;
                 listDiv.appendChild(row);
@@ -2495,7 +2547,6 @@
         function deleteMenuItem(index) {
             if (!confirm('تە دڤێت ڤی ئایتمی ژێببەی؟')) return;
             menuData.splice(index, 1);
-            localStorage.setItem('tchibo_items_v4', JSON.stringify(menuData));
             renderAdminItemsList();
             renderItems();
             pushLiveMenuData();
@@ -2527,7 +2578,7 @@
             document.getElementById('secRecoveryEmail').value = securityData.email || '';
             document.getElementById('secRecoveryPhone').value = securityData.phone || '';
 
-            document.getElementById('inpFirebaseUrl').value = cloudConfig.firebaseUrl || DEFAULT_CLOUD_URL || '';
+            document.getElementById('inpFirebaseUrl').value = cloudConfig.firebaseUrl || DEFAULT_CLOUD_URL;
             document.getElementById('inpGithubRepo').value = cloudConfig.githubRepo || '';
             document.getElementById('inpGithubToken').value = cloudConfig.githubToken || '';
 
@@ -2541,7 +2592,7 @@
 
         function verifyAdminPin() {
             const pin = document.getElementById('adminPinInput').value.trim();
-            if (pin === securityData.pin) {
+            if (pin === String(securityData.pin)) {
                 document.getElementById('adminLoginSection').style.display = 'none';
                 document.getElementById('adminRecoverySection').style.display = 'none';
                 document.getElementById('adminDashboardSection').style.display = 'block';
@@ -2598,15 +2649,13 @@
                 ar: document.getElementById('globalPromoTextAr').value.trim(),
                 en: document.getElementById('globalPromoTextEn').value.trim()
             };
-            localStorage.setItem('tchibo_promo_v4', JSON.stringify(promoSettings));
             applyBrandAndTheme();
             pushLiveMenuData();
-            alert('Saved & Synced!');
+            alert('داشکاندن هاتە خەزنکرن!');
         }
 
         function selectTheme(themeName) {
             brandSettings.theme = themeName;
-            localStorage.setItem('tchibo_brand_v4', JSON.stringify(brandSettings));
             applyBrandAndTheme();
             pushLiveMenuData();
         }
@@ -2614,10 +2663,9 @@
         function saveBrandSettings() {
             brandSettings.logo = document.getElementById('inpLogoUrl').value.trim() || 'logo.jpg';
             brandSettings.name = document.getElementById('inpCafeName').value.trim() || 'Tchibo Coffee';
-            localStorage.setItem('tchibo_brand_v4', JSON.stringify(brandSettings));
             applyBrandAndTheme();
             pushLiveMenuData();
-            alert('Brand & Profile Updated!');
+            alert('پرۆفایل و ناڤ هاتنە خەزنکرن!');
         }
 
         function saveSocialSettings() {
@@ -2629,28 +2677,25 @@
                 snap: document.getElementById('inpSnap').value.trim(),
                 tiktok: document.getElementById('inpTiktok').value.trim()
             };
-            localStorage.setItem('tchibo_social_v4', JSON.stringify(socialData));
             renderSocialLinks();
             pushLiveMenuData();
-            alert('Saved & Synced!');
+            alert('ئەکاونت و ژمارە بۆ هەتاهەتایێ هاتنە خەزنکرن!');
         }
 
         function saveSecuritySettings() {
             const newPin = document.getElementById('secNewPin').value.trim();
-            if (!newPin) return;
+            if (!newPin) return alert('هیڤییە ڕەقەم سری بنڤیسە!');
             securityData = {
                 pin: newPin,
                 email: document.getElementById('secRecoveryEmail').value.trim(),
                 phone: document.getElementById('secRecoveryPhone').value.trim()
             };
-            localStorage.setItem('tchibo_security_v4', JSON.stringify(securityData));
-            alert('Security Saved!');
+            pushLiveMenuData();
+            alert('ڕەقەم سری یێ نوی بۆ هەتاهەتایێ هاتە خەزنکرن!');
         }
 
-        // دەستپێکرنا مینیویێ و پشکنینا ئۆنلاین هەر ٨ چرکان جارەکێ بۆ مشتەریان
-        applyBrandAndTheme();
-        renderSocialLinks();
-        renderMainSections();
+        // کارپێکرنا دەستپێکێ
+        setLang(currentLang);
         fetchLiveMenuData();
         setInterval(fetchLiveMenuData, 8000);
     </script>
