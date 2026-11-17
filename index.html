@@ -3,11 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tchibo Coffee House</title>
-    <!-- ئایکۆنێن Font Awesome -->
+    <title id="pageDocTitle">Tchibo Coffee House</title>
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
+        :root {
+            --accent-primary: #d4af37;
+            --accent-light: #f3e5ab;
+            --accent-dark: #9a7b1c;
+            --bg-main: #07080a;
+            --card-bg: rgba(18, 20, 26, 0.86);
+            --border-color: rgba(212, 175, 55, 0.42);
+            --glow-effect: rgba(212, 175, 55, 0.16);
+        }
+
+        /* ================= ستایلێن هەلکەفتێن سالێ (Seasonal & Event Themes) ================= */
+        body.theme-blackfriday {
+            --accent-primary: #ef4444;
+            --accent-light: #fca5a5;
+            --accent-dark: #991b1b;
+            --bg-main: #030303;
+            --card-bg: rgba(14, 14, 16, 0.94);
+            --border-color: rgba(239, 68, 68, 0.55);
+            --glow-effect: rgba(239, 68, 68, 0.25);
+        }
+
+        body.theme-newroz {
+            --accent-primary: #f59e0b;
+            --accent-light: #fde68a;
+            --accent-dark: #15803d;
+            --bg-main: #05160e;
+            --card-bg: rgba(8, 28, 18, 0.88);
+            --border-color: rgba(245, 158, 11, 0.5);
+            --glow-effect: rgba(16, 185, 129, 0.22);
+        }
+
+        body.theme-newyear {
+            --accent-primary: #fbbf24;
+            --accent-light: #e0f2fe;
+            --accent-dark: #0284c7;
+            --bg-main: #060d1a;
+            --card-bg: rgba(10, 22, 42, 0.88);
+            --border-color: rgba(251, 191, 36, 0.48);
+            --glow-effect: rgba(56, 189, 248, 0.22);
+        }
+
+        body.theme-ramadan {
+            --accent-primary: #eab308;
+            --accent-light: #fef08a;
+            --accent-dark: #6d28d9;
+            --bg-main: #0f071e;
+            --card-bg: rgba(22, 12, 42, 0.88);
+            --border-color: rgba(234, 179, 8, 0.48);
+            --glow-effect: rgba(139, 92, 246, 0.22);
+        }
+
+        body.theme-eid {
+            --accent-primary: #f43f5e;
+            --accent-light: #fecdd3;
+            --accent-dark: #d97706;
+            --bg-main: #14070c;
+            --card-bg: rgba(30, 11, 18, 0.88);
+            --border-color: rgba(244, 63, 94, 0.45);
+            --glow-effect: rgba(244, 63, 94, 0.2);
+        }
+
+        body.theme-summer {
+            --accent-primary: #06b6d4;
+            --accent-light: #fef08a;
+            --accent-dark: #0891b2;
+            --bg-main: #04131a;
+            --card-bg: rgba(8, 28, 38, 0.88);
+            --border-color: rgba(6, 182, 212, 0.48);
+            --glow-effect: rgba(6, 182, 212, 0.22);
+        }
+
+        body.theme-autumn {
+            --accent-primary: #ea580c;
+            --accent-light: #fed7aa;
+            --accent-dark: #9a3412;
+            --bg-main: #140a05;
+            --card-bg: rgba(32, 16, 8, 0.88);
+            --border-color: rgba(234, 88, 12, 0.48);
+            --glow-effect: rgba(234, 88, 12, 0.22);
+        }
+
+        body.theme-coffeeday {
+            --accent-primary: #d97706;
+            --accent-light: #fde68a;
+            --accent-dark: #78350f;
+            --bg-main: #120b07;
+            --card-bg: rgba(28, 18, 12, 0.9);
+            --border-color: rgba(217, 119, 6, 0.48);
+            --glow-effect: rgba(217, 119, 6, 0.22);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -22,13 +113,13 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 15px 12px;
+            padding: 12px 10px 35px;
             overflow-x: hidden;
-            background: #060b14;
+            background: var(--bg-main);
             position: relative;
+            transition: background 0.4s ease;
         }
 
-        /* ڤیدیۆیا پاشبنەمایێ */
         .bg-video {
             position: fixed;
             top: 0;
@@ -36,8 +127,9 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: -2;
+            z-index: -3;
             pointer-events: none;
+            opacity: 0.35;
         }
 
         .bg-overlay {
@@ -46,142 +138,320 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(6, 11, 20, 0.45);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background: 
+                radial-gradient(circle at 50% 0%, var(--glow-effect) 0%, transparent 65%),
+                linear-gradient(180deg, rgba(7, 8, 10, 0.72) 0%, var(--bg-main) 100%);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: -2;
+            transition: 0.4s ease;
+        }
+
+        .seasonal-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
             z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            top: -30px;
+            font-size: 16px;
+            opacity: 0.65;
+            animation: fallAnim linear infinite;
+        }
+
+        @keyframes fallAnim {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0.1; }
         }
 
         .app-container {
             width: 100%;
-            max-width: 440px;
+            max-width: 460px;
             position: relative;
             z-index: 1;
+            border: 1.5px solid var(--border-color);
+            border-radius: 26px;
+            padding: 15px 13px 24px;
+            background: rgba(10, 12, 16, 0.72);
+            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.95), inset 0 0 25px var(--glow-effect);
+            transition: border-color 0.4s ease;
         }
 
-        /* ================= ١. لاپەرێ سەرەکی (Landing View) ================= */
-        #landingView {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            animation: fadeIn 0.3s ease;
+        /* نیشانا بارکرنا ئۆنلاین */
+        .sync-status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+            margin-inline-end: 4px;
         }
 
+        /* ================= هێدەر و زمان ================= */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 4px;
+            gap: 8px;
+            padding-bottom: 11px;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
         }
 
         .brand-logo-wrap {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
         }
 
         .brand-logo-img {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1.5px solid #d4af37;
-            background: #001f3f;
+            border: 1.5px solid var(--accent-primary);
+            box-shadow: 0 0 12px var(--glow-effect);
+            background: #111;
+            cursor: pointer;
         }
 
         .brand-title {
-            font-size: 19px;
+            font-size: 17px;
             font-weight: 800;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
+            color: #fff;
         }
 
         .brand-title span {
-            color: #d4af37;
+            color: var(--accent-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .lang-switch {
             display: flex;
-            gap: 4px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 4px 6px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            gap: 2px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 3px;
+            border-radius: 18px;
+            border: 1px solid var(--border-color);
         }
 
         .lang-btn {
             background: transparent;
             border: none;
             color: #94a3b8;
-            font-size: 11.5px;
+            font-size: 10.5px;
             font-weight: 700;
-            padding: 4px 9px;
+            padding: 4px 7px;
             border-radius: 14px;
             cursor: pointer;
             transition: 0.25s;
         }
 
         .lang-btn.active {
-            background: #d4af37;
-            color: #060b14;
-            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent-primary) 100%);
+            color: #07080a;
+            box-shadow: 0 2px 8px var(--glow-effect);
+        }
+
+        .admin-trigger-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.25s;
+        }
+
+        .admin-trigger-btn:hover {
+            background: var(--accent-primary);
+            color: #07080a;
+        }
+
+        /* ================= ١. لاپەرێ سەرەکی (Landing View) ================= */
+        #landingView {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 10px;
+            animation: fadeIn 0.3s ease;
         }
 
         .hero-section {
             text-align: center;
-            margin: 6px 0 4px;
+        }
+
+        .occasion-banner-badge {
+            display: none;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #07080a;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent-primary));
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 6px;
+            box-shadow: 0 4px 12px var(--glow-effect);
         }
 
         .heritage-tag {
             display: inline-block;
-            font-size: 11px;
+            font-size: 10.5px;
             text-transform: uppercase;
-            letter-spacing: 1.6px;
-            color: #d4af37;
+            letter-spacing: 1.4px;
+            color: var(--accent-light);
             font-weight: 700;
             margin-bottom: 5px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 3px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3px 11px;
             border-radius: 12px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            border: 1px solid var(--border-color);
         }
 
         .hero-section h1 {
-            font-size: 29px;
+            font-size: 27px;
             font-weight: 800;
-            margin-bottom: 4px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+            margin-bottom: 3px;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
         }
 
         .hero-section p {
-            font-size: 13.5px;
+            font-size: 13px;
             color: #cbd5e1;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
         }
 
-        /* کارتێن سەرەکی یێن دەستپێکێ */
+        /* بانەرێ داشکاندنێ یێ گشتی */
+        .promo-banner {
+            display: none;
+            background: linear-gradient(135deg, var(--glow-effect), rgba(18, 20, 26, 0.95));
+            border: 1.5px solid var(--accent-primary);
+            border-radius: 18px;
+            padding: 12px 14px;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.65);
+        }
+
+        .promo-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent-primary));
+            color: #07080a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .promo-text-wrap {
+            flex: 1;
+        }
+
+        .promo-badge-type {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: var(--accent-light);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .promo-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            margin-top: 2px;
+        }
+
+        /* شریتا پەیوەندی و ئەکاونتان ل سەری */
+        .top-socials-bar {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 9px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+        }
+
+        .social-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 11px;
+            border-radius: 11px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: #f8fafc;
+            text-decoration: none;
+            font-size: 11.5px;
+            font-weight: 700;
+            transition: all 0.25s ease;
+        }
+
+        .social-pill i {
+            color: var(--accent-primary);
+            font-size: 13.5px;
+        }
+
+        .social-pill:hover {
+            background: linear-gradient(135deg, var(--accent-light), var(--accent-primary));
+            color: #07080a;
+            transform: translateY(-2px);
+        }
+
+        .social-pill:hover i {
+            color: #07080a;
+        }
+
+        /* کارتێن بەشێن سەرەکی */
         .cards-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 13px;
         }
 
         .category-card {
             position: relative;
-            height: 155px;
-            border-radius: 22px;
+            height: 148px;
+            border-radius: 18px;
             overflow: hidden;
             display: flex;
             align-items: flex-end;
-            padding: 20px 22px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 16px 18px;
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.85);
+            border: 1.5px solid var(--border-color);
             cursor: pointer;
             transition: transform 0.25s ease, border-color 0.25s ease;
         }
 
         .category-card:hover {
             transform: translateY(-3px);
-            border-color: rgba(212, 175, 55, 0.6);
+            border-color: var(--accent-light);
         }
 
         .category-card img {
@@ -205,7 +475,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, rgba(6, 11, 20, 0.15) 0%, rgba(6, 11, 20, 0.88) 100%);
+            background: linear-gradient(180deg, rgba(7, 8, 10, 0.15) 0%, rgba(7, 8, 10, 0.92) 100%);
             z-index: 2;
         }
 
@@ -219,37 +489,32 @@
         }
 
         .text-wrap span {
-            font-size: 11.5px;
-            letter-spacing: 1px;
-            color: #d4af37;
+            font-size: 11px;
+            color: var(--accent-light);
             font-weight: 700;
             display: flex;
             align-items: center;
             gap: 6px;
-            margin-bottom: 2px;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+            margin-bottom: 3px;
         }
 
         .text-wrap h2 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 800;
             color: #ffffff;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
         }
 
         .arrow-circle {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            width: 36px;
+            height: 36px;
+            border-radius: 11px;
+            background: rgba(18, 20, 24, 0.8);
+            border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
-            font-size: 14px;
-            backdrop-filter: blur(5px);
+            color: var(--accent-primary);
+            font-size: 13px;
             transition: 0.25s ease;
         }
 
@@ -258,56 +523,21 @@
         }
 
         .category-card:hover .arrow-circle {
-            background: #d4af37;
-            color: #060b14;
-            border-color: #d4af37;
-        }
-
-        .footer-socials {
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            margin-top: 10px;
-        }
-
-        .social-link {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #94a3b8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 15px;
-            transition: 0.25s;
-        }
-
-        .social-link:hover {
-            color: #d4af37;
-            border-color: #d4af37;
-            transform: translateY(-2px);
+            background: var(--accent-primary);
+            color: #07080a;
         }
 
         .footer-text {
             text-align: center;
-            font-size: 11.5px;
-            color: #94a3b8;
-            margin-top: 6px;
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 4px;
         }
 
-        /* ================= ٢. دیزاینێ مینیویا ئایتمان (Menu View) ================= */
+        /* ================= ٢. لاپەرێ مینیویا ئایتمان (Menu View) ================= */
         #menuView {
             display: none;
-            background: rgba(6, 14, 28, 0.48);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 26px;
-            border: 1px solid rgba(212, 175, 55, 0.35);
-            padding: 16px 14px 22px;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85);
+            margin-top: 12px;
             animation: fadeIn 0.3s ease;
         }
 
@@ -315,23 +545,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .back-btn {
-            background: rgba(0, 0, 0, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12.5px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--accent-light);
+            padding: 7px 13px;
+            border-radius: 12px;
+            font-size: 12px;
             font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 7px;
+            gap: 6px;
             transition: 0.25s;
         }
 
@@ -340,15 +570,14 @@
         }
 
         .back-btn:hover {
-            background: #d4af37;
-            color: #060b14;
-            border-color: #d4af37;
+            background: var(--accent-primary);
+            color: #07080a;
         }
 
         .section-current-badge {
             font-size: 13.5px;
             font-weight: 800;
-            color: #d4af37;
+            color: var(--accent-primary);
             display: flex;
             align-items: center;
             gap: 6px;
@@ -361,9 +590,9 @@
 
         .search-box input {
             width: 100%;
-            background: rgba(6, 14, 28, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 13px;
             padding: 10px 38px 10px 14px;
             color: #ffffff;
             font-size: 13px;
@@ -374,16 +603,12 @@
             padding: 10px 14px 10px 38px;
         }
 
-        .search-box input:focus {
-            border-color: #d4af37;
-        }
-
         .search-box i {
             position: absolute;
             right: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: #cbd5e1;
+            color: var(--accent-primary);
         }
 
         [dir="ltr"] .search-box i {
@@ -391,52 +616,6 @@
             left: 14px;
         }
 
-        /* دوگمەیێن پۆلان دگەل ئایکۆنان */
-        .categories-nav {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 14px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .categories-nav::-webkit-scrollbar {
-            display: none;
-        }
-
-        .tab-btn {
-            background: rgba(6, 14, 28, 0.55);
-            color: #e2e8f0;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 7px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.2s;
-        }
-
-        .tab-btn i {
-            color: #d4af37;
-            font-size: 12px;
-        }
-
-        .tab-btn.active {
-            background: #d4af37;
-            color: #060b14;
-            border-color: #d4af37;
-            font-weight: 700;
-        }
-
-        .tab-btn.active i {
-            color: #060b14;
-        }
-
-        /* کارتان */
         .items-list {
             display: flex;
             flex-direction: column;
@@ -446,486 +625,1572 @@
         .item-card {
             display: flex;
             align-items: center;
-            background: rgba(6, 14, 28, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 10px;
+            padding: 11px;
             gap: 12px;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.65);
+            position: relative;
         }
 
-        .item-card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(212, 175, 55, 0.5);
+        .item-img-wrap {
+            position: relative;
+            width: 78px;
+            height: 78px;
+            flex-shrink: 0;
+            cursor: zoom-in;
         }
 
         .item-img {
-            width: 68px;
-            height: 68px;
+            width: 100%;
+            height: 100%;
             border-radius: 12px;
             object-fit: cover;
-            flex-shrink: 0;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease;
+        }
+
+        .item-img-wrap:active .item-img {
+            transform: scale(0.95);
+        }
+
+        .zoom-hint-icon {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: rgba(0, 0, 0, 0.75);
+            color: var(--accent-light);
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .item-details {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 4px;
         }
 
         .item-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            gap: 6px;
+            flex-wrap: wrap;
         }
 
         .item-title {
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 14.5px;
+            font-weight: 800;
             color: #ffffff;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+        }
+
+        .badges-wrap {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
         }
 
         .badge-special {
-            background: rgba(212, 175, 55, 0.25);
-            color: #fde047;
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--accent-light);
             font-size: 10px;
             font-weight: 700;
             padding: 2px 7px;
-            border-radius: 8px;
-            border: 1px solid rgba(212, 175, 55, 0.45);
+            border-radius: 7px;
+            border: 1px solid var(--accent-primary);
+        }
+
+        .badge-discount {
+            background: #ef4444;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 7px;
+        }
+
+        .badge-bogo {
+            background: #10b981;
+            color: #052e16;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 7px;
         }
 
         .item-desc {
             font-size: 12px;
-            color: #cbd5e1;
+            color: #94a3b8;
             line-height: 1.35;
+        }
+
+        .item-price-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 3px;
+        }
+
+        .item-old-price {
+            font-size: 12px;
+            color: #ef4444;
+            text-decoration: line-through;
+            font-weight: 700;
         }
 
         .item-price {
             font-size: 13.5px;
             font-weight: 800;
-            color: #d4af37;
-            margin-top: 2px;
+            color: var(--accent-light);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            padding: 2px 9px;
+            border-radius: 8px;
+        }
+
+        /* ================= پەنجەرا مەزنکرنا وێنەی (Image Lightbox) ================= */
+        .image-lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 18px;
+            animation: fadeIn 0.22s ease;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 420px;
+            width: 100%;
+            background: #0d1016;
+            border: 2px solid var(--accent-primary);
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid var(--accent-primary);
+            color: #ffffff;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .lightbox-img {
+            width: 100%;
+            max-height: 62vh;
+            object-fit: cover;
+            display: block;
+        }
+
+        .lightbox-caption {
+            padding: 14px 16px;
+            text-align: center;
+        }
+
+        .lightbox-caption h3 {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .lightbox-caption p {
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+
+        .lightbox-caption .lb-price {
+            display: inline-block;
+            font-size: 15px;
+            font-weight: 800;
+            color: #07080a;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent-primary));
+            padding: 4px 14px;
+            border-radius: 10px;
+        }
+
+        /* ================= ٣. پانێلێ ئەدمینی (Admin Modal) ================= */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+        }
+
+        .admin-box {
+            background: #0d1016;
+            border: 1.5px solid var(--accent-primary);
+            border-radius: 22px;
+            width: 100%;
+            max-width: 460px;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 16px 14px;
+            color: #fff;
+            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.95);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 11px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .admin-header h3 {
+            font-size: 15.5px;
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .close-admin {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .admin-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+
+        .admin-tab-btn {
+            padding: 7px 4px;
+            border-radius: 9px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: #cbd5e1;
+            font-size: 10.5px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .admin-tab-btn.active {
+            background: linear-gradient(135deg, var(--accent-light), var(--accent-primary));
+            color: #07080a;
+            border-color: var(--accent-light);
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11.5px;
+            color: #cbd5e1;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px 11px;
+            border-radius: 9px;
+            border: 1px solid var(--border-color);
+            background: rgba(7, 8, 10, 0.92);
+            color: #fff;
+            font-size: 12.5px;
+            outline: none;
+        }
+
+        .img-preview-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 6px 8px;
+            border-radius: 10px;
+            border: 1px dashed var(--border-color);
+        }
+
+        .img-preview-thumb {
+            width: 46px;
+            height: 46px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--accent-primary);
+            background: #111;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 7px;
+            margin-bottom: 12px;
+        }
+
+        .theme-card-btn {
+            padding: 9px 8px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .theme-card-btn.active {
+            border: 2px solid var(--accent-light);
+            background: rgba(212, 175, 55, 0.22);
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent-primary));
+            color: #07080a;
+            border: none;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .cancel-edit-btn {
+            width: 100%;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 11px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: center;
+            margin-top: 11px;
+            color: var(--accent-light);
+            font-size: 11.5px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .admin-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            padding: 7px 9px;
+            border-radius: 9px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            gap: 8px;
+        }
+
+        .admin-row-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .admin-row-thumb {
+            width: 36px;
+            height: 36px;
+            border-radius: 7px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .admin-item-actions {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .edit-item-btn {
+            background: #eab308;
+            color: #07080a;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .delete-item-btn {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .cloud-info-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 11.5px;
+            line-height: 1.5;
+            color: #d1fae5;
+            margin-bottom: 12px;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
+            from { opacity: 0; transform: scale(0.97); }
             to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
-    <!-- ١. ڤیدیۆیا باریستای -->
     <video class="bg-video" autoplay loop muted playsinline>
         <source src="bg-video.mp4" type="video/mp4">
     </video>
-
-    <!-- ٢. پەردەیا سڤک -->
     <div class="bg-overlay"></div>
+    <div class="seasonal-effects" id="seasonalEffects"></div>
 
     <div class="app-container">
 
-        <!-- ================= لاپەرێ سەرەکی (Landing View) ================= -->
-        <div id="landingView">
-            <header>
-                <div class="brand-logo-wrap">
-                    <img class="brand-logo-img" src="logo.jpg" alt="Logo" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150&auto=format&fit=crop'">
-                    <div class="brand-title">Tchibo <span>Coffee</span></div>
-                </div>
+        <!-- هێدەر دگەل لۆگۆ، ٤ زمانان و دوگمەیا ئەدمینی -->
+        <header>
+            <div class="brand-logo-wrap">
+                <img class="brand-logo-img" id="brandLogoImg" src="logo.jpg" alt="Logo" onclick="openLightbox(this.src, document.getElementById('brandTitleText').innerText, '', '')" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150&auto=format&fit=crop'">
+                <div class="brand-title" id="brandTitleText">Tchibo <span>Coffee</span></div>
+            </div>
 
+            <div class="header-actions">
                 <div class="lang-switch">
-                    <button class="lang-btn active" onclick="setLang('ku', this)">کوردى</button>
+                    <button class="lang-btn active" onclick="setLang('ku', this)">بەهدینی</button>
+                    <button class="lang-btn" onclick="setLang('ckb', this)">سۆرانی</button>
                     <button class="lang-btn" onclick="setLang('ar', this)">عربي</button>
                     <button class="lang-btn" onclick="setLang('en', this)">EN</button>
                 </div>
-            </header>
+                <button class="admin-trigger-btn" onclick="openAdminModal()" title="Admin">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+            </div>
+        </header>
 
+        <!-- ================= ١. لاپەرێ سەرەکی (Landing View) ================= -->
+        <div id="landingView">
             <div class="hero-section">
-                <span class="heritage-tag" id="heritageText">🇩🇪 Hamburg • Est. 1949</span>
+                <div class="occasion-banner-badge" id="occasionBadge"></div>
+                <br>
+                <span class="heritage-tag" id="heritageText">🇩🇪 هامبۆرگ، ئەڵمانیا • دامەزراندن ١٩٤٩</span>
                 <h1 id="heroTitle">کافێیا چیبۆ</h1>
                 <p id="heroSub">ئەزموونا قاوەیا خۆ هەلبژێرە</p>
             </div>
 
-            <div class="cards-wrapper">
-                <!-- ١. کارتا DRINKS -->
-                <div class="category-card" onclick="openSection('drinks')">
-                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=700&auto=format&fit=crop" alt="Drinks">
-                    <div class="card-overlay"></div>
-                    <div class="card-content">
-                        <div class="text-wrap">
-                            <span id="subDrinks"><i class="fa-solid fa-mug-hot"></i> مینیویا قاوە و ڤەخوارنان</span>
-                            <h2 id="titleDrinks">ڤەخوارن (DRINKS)</h2>
-                        </div>
-                        <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
-                    </div>
-                </div>
-
-                <!-- ٢. کارتا BAKERY -->
-                <div class="category-card" onclick="openSection('bakery')">
-                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=700&auto=format&fit=crop" alt="Bakery">
-                    <div class="card-overlay"></div>
-                    <div class="card-content">
-                        <div class="text-wrap">
-                            <span id="subBakery"><i class="fa-solid fa-cake-candles"></i> کێک و شترودلا ئەڵمانی</span>
-                            <h2 id="titleBakery">شریناهی (BAKERY)</h2>
-                        </div>
-                        <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
-                    </div>
-                </div>
-
-                <!-- ٣. کارتا BEANS -->
-                <div class="category-card" onclick="openSection('beans')">
-                    <img src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?w=700&auto=format&fit=crop" alt="Beans">
-                    <div class="card-overlay"></div>
-                    <div class="card-content">
-                        <div class="text-wrap">
-                            <span id="subBeans"><i class="fa-solid fa-seedling"></i> ١٠٠٪ عەرەبیکا یا ئەڵمانی</span>
-                            <h2 id="titleBeans">دانکێن قاوێ (BEANS)</h2>
-                        </div>
-                        <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
-                    </div>
+            <!-- بانەرێ داشکاندنێ یان ئۆفەرا دیاریێ (20% یان 1+1) -->
+            <div class="promo-banner" id="globalPromoBanner">
+                <div class="promo-icon-box" id="promoIconBox">%</div>
+                <div class="promo-text-wrap">
+                    <div class="promo-badge-type" id="promoBadgeType">ئۆفەرا تایبەت</div>
+                    <div class="promo-title" id="promoBannerTitle"></div>
                 </div>
             </div>
 
-            <div class="footer-socials">
-                <a href="#" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="social-link" title="Snapchat"><i class="fa-brands fa-snapchat"></i></a>
-                <a href="#" class="social-link" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                <a href="#" class="social-link" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-            </div>
+            <!-- شریتا تەلەفۆن، GPS و ئەکاونتێن سۆشیال میدیایێ ل سەری -->
+            <div class="top-socials-bar" id="socialLinksContainer"></div>
 
-            <p class="footer-text" id="footerCopy">Tchibo Coffee House © 2026 • Hamburg Heritage</p>
+            <!-- کارتێن بەشێن سەرەکی -->
+            <div class="cards-wrapper" id="mainSectionsWrapper"></div>
+
+            <p class="footer-text"><span class="sync-status-dot" id="liveSyncDot" title="Live Sync"></span> <span id="footerCopy">Tchibo Coffee House © 2026</span></p>
         </div>
 
-        <!-- ================= لاپەرێ مینیویێ (Menu View) ================= -->
+        <!-- ================= ٢. لاپەرێ مینیویا ئایتمان (Menu View) ================= -->
         <div id="menuView">
             <div class="menu-top-bar">
                 <button class="back-btn" onclick="backToLanding()">
                     <i class="fa-solid fa-arrow-right"></i>
                     <span id="backBtnText">زڤڕین بۆ سەرەتا</span>
                 </button>
-                <div class="section-current-badge" id="sectionCurrentBadge">
-                    <!-- ب رێکا جاڤاسکریپتێ دهێتە دیارکرن -->
-                </div>
+                <div class="section-current-badge" id="sectionCurrentBadge"></div>
             </div>
 
-            <!-- لێگەڕیان -->
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" placeholder="ل ناڤ ڤێ بەشێ بگەڕە...">
+                <input type="text" id="searchInput" placeholder="">
             </div>
 
-            <!-- دوگمەیێن فلتەرکرنێ یێن تایبەت ب وی بەشێ هاتینە ڤەکرن -->
-            <div class="categories-nav" id="subTabsNav">
-                <!-- ب رێکا جاڤاسکریپتێ دروست دبیت -->
-            </div>
-
-            <!-- لیستا ئایتمان -->
             <div class="items-list" id="menuList"></div>
         </div>
 
     </div>
 
+    <!-- ================= پەنجەرا مەزنکرنا وێنەی دەمێ مشتەری تبلێ لێ ددەت (Lightbox Zoom) ================= -->
+    <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox(event)">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
+            <img class="lightbox-img" id="lightboxImg" src="" alt="">
+            <div class="lightbox-caption">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDesc"></p>
+                <span class="lb-price" id="lightboxPrice"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ٣. پانێلێ ئەدمینی ب هەمی زمانان + Live Cloud Sync ================= -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-box">
+            <div class="admin-header">
+                <h3><i class="fa-solid fa-crown"></i> <span id="admHeaderTitle">پانێلێ ڕێڤەبەری (Admin)</span></h3>
+                <button class="close-admin" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- چووناژوور -->
+            <div id="adminLoginSection">
+                <div class="form-group">
+                    <label id="lblEnterPin">ڕەقەم سری (PIN) بنڤیسە:</label>
+                    <input type="password" id="adminPinInput" placeholder="****">
+                </div>
+                <button class="save-btn" id="btnLogin" onclick="verifyAdminPin()">چووناژوور</button>
+                <span class="forgot-link" id="linkForgotPin" onclick="showRecoverySection()">تە ڕەقەم سری ژبیر کرییە؟</span>
+            </div>
+
+            <!-- زڤڕاندنا ڕەقەم سری -->
+            <div id="adminRecoverySection" style="display: none;">
+                <div class="form-group">
+                    <label id="lblRecoveryPrompt">ئیمێل یان ژمارا تەلەفۆنا تۆمارکری بنڤیسە:</label>
+                    <input type="text" id="recoveryInput" placeholder="Email / 0750xxxxxxx">
+                </div>
+                <button class="save-btn" id="btnRecoverPin" onclick="recoverAdminPin()">نیشادانا ڕەقەم سری</button>
+                <span class="forgot-link" id="linkBackLogin" onclick="backToAdminLogin()">زڤڕین بۆ چووناژوور</span>
+            </div>
+
+            <!-- داشبۆردا سەرەکی یا ئەدمینی -->
+            <div id="adminDashboardSection" style="display: none;">
+                <div class="admin-tabs">
+                    <button class="admin-tab-btn active" id="tabBtnSections" onclick="switchAdminTab('sections')">١. بەشەکان</button>
+                    <button class="admin-tab-btn" id="tabBtnItems" onclick="switchAdminTab('items')">٢. ئایتمەکان</button>
+                    <button class="admin-tab-btn" id="tabBtnDiscounts" onclick="switchAdminTab('discounts')">٣. داشکاندن %</button>
+                    <button class="admin-tab-btn" id="tabBtnThemes" onclick="switchAdminTab('themes')">٤. دیزاین و بۆنە</button>
+                    <button class="admin-tab-btn" id="tabBtnSocial" onclick="switchAdminTab('social')">٥. ئەکاونت و GPS</button>
+                    <button class="admin-tab-btn" id="tabBtnSecurity" onclick="switchAdminTab('security')">٦. ڕەقەم سری</button>
+                    <button class="admin-tab-btn" id="tabBtnCloud" onclick="switchAdminTab('cloud')" style="grid-column: span 3; border-color:#10b981; color:#a7f3d0;">🌐 ٧. گرێدانا ئۆنلاین دگەل مۆبایلا مشتەریان (Live Cloud Sync)</button>
+                </div>
+
+                <!-- ١. تابا بەشێن سەرەکی -->
+                <div id="adminSectionsTab">
+                    <input type="hidden" id="editSectionIndex" value="-1">
+                    <div class="form-group">
+                        <label id="lblSecTitleKu">ناڤێ بەشی (بەهدینی - نموونە: نێرگلە یان خوارن)</label>
+                        <input type="text" id="secTitleKu" placeholder="بۆ نموونە: نێرگلە (SHISHA)">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblSecTitleCkb">ناڤێ بەشی (سۆرانی)</label>
+                        <input type="text" id="secTitleCkb" placeholder="نێرگەلە (SHISHA)">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblSecTitleAr">ناڤێ بەشی (عەرەبی)</label>
+                        <input type="text" id="secTitleAr" placeholder="الأركيلة (SHISHA)">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblSecTitleEn">ناڤێ بەشی (English)</label>
+                        <input type="text" id="secTitleEn" placeholder="SHISHA & HOOKAH">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblSecSub">ژێرنڤیس (Subtitle)</label>
+                        <input type="text" id="secSubText" placeholder="تامێن تایبەت و شاهانە">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblSecImg">وێنێ بەشی (لینک یان ژ ستۆدیۆیا مۆبایلێ هەلبژێرە)</label>
+                        <input type="url" id="secImgUrl" placeholder="https://..." oninput="updatePreview('secImgUrl', 'secImgPreview')">
+                        <div class="img-preview-box">
+                            <img id="secImgPreview" class="img-preview-thumb" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150&auto=format&fit=crop" alt="Preview">
+                            <input type="file" accept="image/*" onchange="encodeImageFileAsURL(this, 'secImgUrl', 'secImgPreview')">
+                        </div>
+                    </div>
+                    <button class="save-btn" id="btnAddSection" onclick="saveOrUpdateSection()">+ زێدەکرن / خەزنکرنا بەشی</button>
+                    <button class="cancel-edit-btn" id="cancelSecEditBtn" onclick="resetSectionForm()">هەلوەشاندن (Cancel)</button>
+
+                    <hr style="border-color: rgba(255,255,255,0.12); margin: 14px 0;">
+                    <div id="adminSectionsList"></div>
+                </div>
+
+                <!-- ٢. تابا ئایتمان -->
+                <div id="adminItemsTab" style="display: none;">
+                    <input type="hidden" id="editItemIndex" value="-1">
+                    <div class="form-group">
+                        <label id="lblSelectSection">بەشێ سەرەکی هەلبژێرە</label>
+                        <select id="itemSection"></select>
+                    </div>
+                    <div class="form-group">
+                        <label id="lblItemNameKu">ناڤێ ئایتمی (بەهدینی)</label>
+                        <input type="text" id="itemTitleKu" placeholder="ئێسپرێسۆ">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblItemNameCkb">ناڤێ ئایتمی (سۆرانی)</label>
+                        <input type="text" id="itemTitleCkb" placeholder="ئێسپرێسۆ">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblItemNameAr">ناڤێ ئایتمی (عەرەبی)</label>
+                        <input type="text" id="itemTitleAr" placeholder="إسبريسو">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblItemNameEn">ناڤێ ئایتمی (English)</label>
+                        <input type="text" id="itemTitleEn" placeholder="Espresso">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblItemDesc">وەسفا ئایتمی</label>
+                        <input type="text" id="itemDescKu" placeholder="...">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblItemPrice">بهایێ سەرەکی (IQD)</label>
+                        <input type="text" id="itemPrice" placeholder="4,000">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblItemPromoType">جۆرێ داشکاندنێ بۆ ڤی ئایتمی</label>
+                        <select id="itemPromoType">
+                            <option value="none" id="optPromoNone">بێ داشکاندن (None)</option>
+                            <option value="percent" id="optPromoPercent">داشکاندن ب ڕێژەیا سەدی (e.g. 20% OFF)</option>
+                            <option value="bogo" id="optPromoBogo">١ بکڕە و ١ دیاری (1+1 Gift)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label id="lblItemDiscountPercent">ڕێژەیا داشکاندنێ % (نموونە: 20)</label>
+                        <input type="number" id="itemDiscountPercent" placeholder="20">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblItemImg">وێنێ ئایتمی (لینک یان ژ ستۆدیۆیا مۆبایلێ بگوهۆرە)</label>
+                        <input type="url" id="itemImg" placeholder="https://..." oninput="updatePreview('itemImg', 'itemImgPreview')">
+                        <div class="img-preview-box">
+                            <img id="itemImgPreview" class="img-preview-thumb" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150&auto=format&fit=crop" alt="Preview">
+                            <input type="file" id="itemImgFile" accept="image/*" onchange="encodeImageFileAsURL(this, 'itemImg', 'itemImgPreview')">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label id="lblItemBadge">نیشانا تایبەت</label>
+                        <select id="itemBadge">
+                            <option value="">---</option>
+                            <option value="special">★ Signature / تایبەت</option>
+                            <option value="top">🔥 Best Seller / پڕفرۆش</option>
+                        </select>
+                    </div>
+                    <button class="save-btn" id="saveItemBtn" onclick="saveOrUpdateMenuItem()">+ زێدەکرن / خەزنکرنا ئایتمی</button>
+                    <button class="cancel-edit-btn" id="cancelEditBtn" onclick="resetItemForm()">هەلوەشاندن (Cancel)</button>
+
+                    <hr style="border-color: rgba(255,255,255,0.12); margin: 14px 0;">
+                    <div id="adminItemsList"></div>
+                </div>
+
+                <!-- ٣. تابا داشکاندنا گشتی -->
+                <div id="adminDiscountsTab" style="display: none;">
+                    <div class="form-group">
+                        <label id="lblGlobalPromoActive">بارێ بانەرێ داشکاندنێ ل سەرێ مینیویێ</label>
+                        <select id="globalPromoActive">
+                            <option value="off">نەچالاک (ڤەشارتی)</option>
+                            <option value="percent">شێوازێ ١: داشکاندنا سەدی (نموونە: 20% OFF)</option>
+                            <option value="bogo">شێوازێ ٢: تشتەکی ڤەخۆ و ئێک دیاری (1+1 Gift)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label id="lblGlobalPromoVal">نیشان یان ڕێژە (نموونە: 20% یان 1+1)</label>
+                        <input type="text" id="globalPromoVal" placeholder="20%">
+                    </div>
+                    <div class="form-group">
+                        <label>نڤیسینا ئۆفەرێ (بەهدینی)</label>
+                        <input type="text" id="globalPromoTextKu" placeholder="٢٠٪ داشکاندن ل سەر هەمی قاوەیان!">
+                    </div>
+                    <div class="form-group">
+                        <label>نڤیسینا ئۆفەرێ (سۆرانی)</label>
+                        <input type="text" id="globalPromoTextCkb" placeholder="٢٠٪ داشکاندن لەسەر هەموو قاوەکان!">
+                    </div>
+                    <div class="form-group">
+                        <label>نڤیسینا ئۆفەرێ (عەرەبی)</label>
+                        <input type="text" id="globalPromoTextAr" placeholder="خصم 20% على جميع المشروبات!">
+                    </div>
+                    <div class="form-group">
+                        <label>نڤیسینا ئۆفەرێ (English)</label>
+                        <input type="text" id="globalPromoTextEn" placeholder="Buy 1 Coffee, Get 1 Free Gift!">
+                    </div>
+                    <button class="save-btn" id="btnSavePromo" onclick="savePromoSettings()">خەزنکرنا داشکاندنێ</button>
+                </div>
+
+                <!-- ٤. تابا دیزاین، Black Friday و هەلکەفتێن سالێ و پرۆفایلی -->
+                <div id="adminThemesTab" style="display: none;">
+                    <label id="lblChooseTheme" style="display:block; font-size:12px; margin-bottom:8px; color:var(--accent-light);">ستایل و هەلکەفتێ هەلبژێرە (دیزاین دێ هەمی گوهۆڕیت):</label>
+                    <div class="theme-grid">
+                        <button class="theme-card-btn" onclick="selectTheme('default')">👑 Royal Default</button>
+                        <button class="theme-card-btn" onclick="selectTheme('blackfriday')">🖤 Black Friday 🏷️</button>
+                        <button class="theme-card-btn" onclick="selectTheme('newroz')">🔥 Newroz / نەورۆز</button>
+                        <button class="theme-card-btn" onclick="selectTheme('newyear')">❄️ New Year / سەرێ سالێ</button>
+                        <button class="theme-card-btn" onclick="selectTheme('ramadan')">🌙 Ramadan / رەمەزان</button>
+                        <button class="theme-card-btn" onclick="selectTheme('eid')">🎉 Eid / جەژن</button>
+                        <button class="theme-card-btn" onclick="selectTheme('summer')">☀️ Summer / هاڤین</button>
+                        <button class="theme-card-btn" onclick="selectTheme('autumn')">🍁 Autumn / پاییز</button>
+                        <button class="theme-card-btn" onclick="selectTheme('coffeeday')">☕ Coffee Day</button>
+                    </div>
+
+                    <hr style="border-color: rgba(255,255,255,0.12); margin: 14px 0;">
+                    <div class="form-group">
+                        <label id="lblProfileLogo">گوهۆرینا وێنێ پرۆفایلی (لۆگۆیێ کافێیێ)</label>
+                        <input type="url" id="inpLogoUrl" placeholder="https://..." oninput="updatePreview('inpLogoUrl', 'logoPreviewThumb')">
+                        <div class="img-preview-box">
+                            <img id="logoPreviewThumb" class="img-preview-thumb" src="logo.jpg" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150&auto=format&fit=crop'">
+                            <input type="file" id="inpLogoFile" accept="image/*" onchange="encodeImageFileAsURL(this, 'inpLogoUrl', 'logoPreviewThumb')">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label id="lblCafeName">ناڤێ کافێیێ و تابا لینکێ (Brand & Link Title)</label>
+                        <input type="text" id="inpCafeName" placeholder="Tchibo Coffee">
+                    </div>
+                    <button class="save-btn" id="btnSaveBrand" onclick="saveBrandSettings()">خەزنکرنا پرۆفایل و ستایلی</button>
+                </div>
+
+                <!-- ٥. تابا تەلەفۆن، GPS و سۆشیال میدیایێ -->
+                <div id="adminSocialTab" style="display: none;">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-phone"></i> Phone / تەلەفۆن</label>
+                        <input type="tel" id="inpPhone" placeholder="0750xxxxxxx">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-location-dot"></i> GPS / Google Maps Link</label>
+                        <input type="url" id="inpGps" placeholder="https://maps.google.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-brands fa-whatsapp"></i> WhatsApp</label>
+                        <input type="text" id="inpWhatsapp" placeholder="964750xxxxxxx">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-brands fa-instagram"></i> Instagram</label>
+                        <input type="url" id="inpInsta" placeholder="https://instagram.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-brands fa-snapchat"></i> Snapchat</label>
+                        <input type="url" id="inpSnap" placeholder="https://snapchat.com/add/...">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-brands fa-tiktok"></i> TikTok</label>
+                        <input type="url" id="inpTiktok" placeholder="https://tiktok.com/@...">
+                    </div>
+                    <button class="save-btn" id="btnSaveSocial" onclick="saveSocialSettings()">خەزنکرن</button>
+                </div>
+
+                <!-- ٦. تابا ڕەقەم سری و زڤڕاندنێ -->
+                <div id="adminSecurityTab" style="display: none;">
+                    <div class="form-group">
+                        <label id="lblNewPin"><i class="fa-solid fa-key"></i> ڕەقەم سری یێ نوی (PIN)</label>
+                        <input type="text" id="secNewPin" placeholder="1234">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblRecEmail"><i class="fa-solid fa-envelope"></i> ئیمێلێ زڤڕاندنێ (Recovery Email)</label>
+                        <input type="email" id="secRecoveryEmail" placeholder="name@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label id="lblRecPhone"><i class="fa-solid fa-mobile-screen"></i> تەلەفۆنا زڤڕاندنێ (Recovery Phone)</label>
+                        <input type="tel" id="secRecoveryPhone" placeholder="0750xxxxxxx">
+                    </div>
+                    <button class="save-btn" id="btnSaveSecurity" onclick="saveSecuritySettings()">خەزنکرن</button>
+                </div>
+
+                <!-- ٧. تابا گرێدانا ئۆنلاین دا ل نک هەمی مشتەریان ئێکسەر بگوهۆڕیت (Live Cloud Sync) -->
+                <div id="adminCloudTab" style="display: none;">
+                    <div class="cloud-info-box">
+                        <strong>🌐 چەوا گوهۆرینێن مۆبایلا ئەدمینی ئێکسەر ل سەر مۆبایلا مشتەریان دیار دبن؟</strong><br>
+                        ١. یان لینکێ <b>Firebase Realtime Database</b> دابنێ (نموونە: <code>https://your-cafe-default-rtdb.firebaseio.com</code>).<br>
+                        ٢. یان ژی ناڤێ ریپۆزیتۆریا خۆ یا <b>GitHub</b> (نموونە: <code>username/repo</code>) دگەل <b>GitHub Token</b> دابنێ. هەر گاڤا تو ل مۆبایلا خۆ تشتەکی زێدە بکەی یان بگوهۆری، دێ ئێکسەر ل نک هەمی مشتەریان هێتە گوهۆرین!
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-cloud"></i> رێکا ١: Firebase Realtime Database URL (ئەگەر هەبیت)</label>
+                        <input type="url" id="inpFirebaseUrl" placeholder="https://your-project-default-rtdb.firebaseio.com">
+                    </div>
+                    <hr style="border-color: rgba(255,255,255,0.12); margin: 12px 0;">
+                    <div class="form-group">
+                        <label><i class="fa-brands fa-github"></i> رێکا ٢: GitHub Repository (username/repo)</label>
+                        <input type="text" id="inpGithubRepo" placeholder="username/tchibo-menu">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-lock"></i> GitHub Personal Access Token (ghp_...)</label>
+                        <input type="password" id="inpGithubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                    </div>
+                    <button class="save-btn" onclick="saveCloudConfigAndSync()">🌐 خەزنکرن و بەلاڤکرنا مینیویێ بۆ هەمی مشتەریان (Publish Live)</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <script>
+        /* =========================================================================
+           گەلەک گرنگ: ئەگەر تە لینکێ Firebase چێکر، ل ڤێرە د ناڤ نیشانێن "" دا دابنێ
+           دا کو هەمی مۆبایلێن مشتەریان ڕاستەوخۆ ژ وێرێ داتایان وەربگرن:
+        ========================================================================= */
+        const DEFAULT_CLOUD_URL = "https://tchibo-duhok-default-rtdb.firebaseio.com/"; // نموونە: "https://tchibo-menu-default-rtdb.firebaseio.com"
+
+        /* ================= ١. وەرگێڕانا تەمام ب ٤ زمانان ================= */
         const translations = {
             ku: {
                 dir: "rtl",
                 heritage: "🇩🇪 هامبۆرگ، ئەڵمانیا • دامەزراندن ١٩٤٩",
                 heroTitle: "کافێیا چیبۆ",
                 heroSub: "ئەزموونا قاوەیا خۆ هەلبژێرە",
-                subDrinks: "مینیویا قاوە و ڤەخوارنان",
-                titleDrinks: "ڤەخوارن (DRINKS)",
-                subBakery: "کێک و شترودلا ئەڵمانی",
-                titleBakery: "شریناهی (BAKERY)",
-                subBeans: "١٠٠٪ عەرەبیکا یا ئەڵمانی",
-                titleBeans: "دانکێن قاوێ (BEANS)",
                 backBtn: "زڤڕین بۆ سەرەتا",
                 searchPlaceholder: "ل ناڤ ڤێ بەشێ بگەڕە...",
-                badgeDrinks: "☕ ڤەخوارن (DRINKS)",
-                badgeBakery: "🍰 شریناهی (BAKERY)",
-                badgeBeans: "🫘 دانکێن قاوێ (BEANS)",
-                tabs: {
-                    all: "هەمی",
-                    hot: "گەرم",
-                    cold: "سار و مۆهیتۆ",
-                    cakes: "کێک و شترودل",
-                    pastries: "کرۆیاسان و وافڵ",
-                    retail: "کیسکێن دانکان"
-                },
                 badgeSpecial: "تایبەت ★",
-                badgeTop: "پڕفرۆش ترین",
+                badgeTop: "پڕفرۆش 🔥",
+                bogoTag: "١ بکڕە + ١ دیاری 🎁",
+                promoSpecialLabel: "ئۆفەرا تایبەت",
                 currency: "د.ع",
-                footer: "Tchibo Coffee House © 2026 • هەمی ماف پاراستینە"
+                footer: "Tchibo Coffee House © 2026 • هەمی ماف پاراستینە",
+                occasions: {
+                    blackfriday: "🖤 BLACK FRIDAY • داشکاندنێن مەزن یێن بلاک فرایدەی 🏷️",
+                    newroz: "🔥 جەژنا نەورۆزێ پیرۆز بیت • Newroz Special",
+                    newyear: "❄️ سەرێ سالا نوی پیرۆز بیت • Happy New Year",
+                    ramadan: "🌙 رەمەزانا پیرۆز • Ramadan Kareem",
+                    eid: "🎉 جەژنا هەوە پیرۆز بیت • Eid Mubarak",
+                    summer: "☀️ ئۆفەرێن هاڤینێ یێن سار و تەزینۆک • Summer Vibes",
+                    autumn: "🍁 وەرزێ پاییزێ و قاوەیا گەرم • Autumn Season",
+                    coffeeday: "☕ رۆژا جیهانی یا قاوێ پیرۆز بیت • International Coffee Day"
+                },
+                socialLabels: { call: "پەیوەندی", gps: "ناڤونیشان", wa: "وەتسئەپ", insta: "ئینستاگرام", snap: "سناپچات", tiktok: "تیکتۆک" },
+                admin: {
+                    header: "پانێلێ ڕێڤەبەری (Admin)",
+                    enterPin: "ڕەقەم سری (PIN) بنڤیسە:",
+                    loginBtn: "چووناژوور",
+                    forgotPin: "تە ڕەقەم سری ژبیر کرییە؟ زڤڕاندن ب ئیمێل یان تەلەفۆنێ",
+                    recoveryPrompt: "ئیمێل یان ژمارا تەلەفۆنا خۆ یا تۆمارکری بنڤیسە:",
+                    recoverBtn: "نیشادانا ڕەقەم سری",
+                    backLogin: "زڤڕین بۆ چووناژوور",
+                    tabs: { sections: "١. بەشەکان", items: "٢. ئایتمەکان", discounts: "٣. داشکاندن %", themes: "٤. دیزاین و بۆنە", social: "٥. ئەکاونت و GPS", security: "٦. ڕەقەم سری" },
+                    selectSec: "بەشێ سەرەکی هەلبژێرە",
+                    nameKu: "ناڤ (بەهدینی)", nameCkb: "ناڤ (سۆرانی)", nameAr: "ناڤ (عەرەبی)", nameEn: "ناڤ (ئینگلیزی)",
+                    desc: "وەسفا ئایتمی", price: "بهایێ سەرەکی (IQD)",
+                    promoType: "جۆرێ داشکاندنێ بۆ ڤی ئایتمی",
+                    promoNone: "بێ داشکاندن", promoPercent: "داشکاندنا سەدی (20% OFF)", promoBogo: "١ بکڕە و ١ دیاری (1+1)",
+                    discPercent: "ڕێژەیا داشکاندنێ % (نموونە: 20)",
+                    imgLabel: "وێنێ ئایتمی (لینک یان ژ ستۆدیۆیا مۆبایلێ بگوهۆرە)",
+                    badgeLabel: "نیشانا تایبەت",
+                    saveItem: "+ زێدەکرن / خەزنکرنا ئایتمی", cancelBtn: "هەلوەشاندن",
+                    editBtn: "دەستکاری", deleteBtn: "ژێبرن",
+                    globalPromoStatus: "بارێ بانەرێ داشکاندنێ ل سەرێ مینیویێ",
+                    globalPromoVal: "نیشان یان ڕێژە (نموونە: 20% یان 1+1)",
+                    saveBtn: "خەزنکرن",
+                    chooseTheme: "ستایل و هەلکەفتا سالێ هەلبژێرە (دیزاین دێ هەمی گوهۆڕیت):",
+                    profileLogo: "گوهۆرینا وێنێ پرۆفایلی (لۆگۆ)",
+                    cafeName: "ناڤێ کافێیێ و لینکێ سەری",
+                    addSecBtn: "+ زێدەکرن / خەزنکرنا بەشی",
+                    newPin: "ڕەقەم سری یێ نوی (PIN)", recEmail: "ئیمێلێ زڤڕاندنێ", recPhone: "ژمارا تەلەفۆنا زڤڕاندنێ"
+                }
+            },
+            ckb: {
+                dir: "rtl",
+                heritage: "🇩🇪 هامبۆرگ، ئەڵمانیا • دامەزراندن ١٩٤٩",
+                heroTitle: "کافێی چیبۆ",
+                heroSub: "ئەزموونی قاوەی خۆت هەڵبژێرە",
+                backBtn: "گەڕانەوە بۆ سەرەتا",
+                searchPlaceholder: "لەناو ئەم بەشەدا بگەڕێ...",
+                badgeSpecial: "تایبەت ★",
+                badgeTop: "پڕفرۆشترین 🔥",
+                bogoTag: "١ بکڕە + ١ دیاری 🎁",
+                promoSpecialLabel: "ئۆفەری تایبەت",
+                currency: "د.ع",
+                footer: "Tchibo Coffee House © 2026 • هەموو مافێک پارێزراوە",
+                occasions: {
+                    blackfriday: "🖤 BLACK FRIDAY • داشکاندنە گەورەکانی بلاک فرایدەی 🏷️",
+                    newroz: "🔥 جەژنی نەورۆزتان پیرۆز بێت • Newroz Special",
+                    newyear: "❄️ ساڵی نوێتان پیرۆز بێت • Happy New Year",
+                    ramadan: "🌙 ڕەمەزانتان پیرۆز بێت • Ramadan Kareem",
+                    eid: "🎉 جەژنتان پیرۆز بێت • Eid Mubarak",
+                    summer: "☀️ ئۆفەرە فێنکەکانی هاوین • Summer Vibes",
+                    autumn: "🍁 وەرزی پاییز و قاوەی گەرم • Autumn Season",
+                    coffeeday: "☕ ڕۆژی جیهانی قاوە پیرۆز بێت • International Coffee Day"
+                },
+                socialLabels: { call: "پەیوەندی", gps: "ناونیشان", wa: "واتسئەپ", insta: "ئینستاگرام", snap: "سناپچات", tiktok: "تیکتۆک" },
+                admin: {
+                    header: "پانێڵی بەڕێوەبەر (Admin)",
+                    enterPin: "وشەی تێپەڕ (PIN) بنووسە:",
+                    loginBtn: "چوونەژوورەوە",
+                    forgotPin: "وشەی تێپەڕت لەبیرکردووە؟ گەڕاندنەوە بە ئیمەیڵ یان مۆبایل",
+                    recoveryPrompt: "ئیمەیڵ یان ژمارە مۆبایلی تۆمارکراو بنووسە:",
+                    recoverBtn: "پیشاندانی وشەی تێپەڕ",
+                    backLogin: "گەڕانەوە بۆ چوونەژوورەوە",
+                    tabs: { sections: "١. بەشەکان", items: "٢. ئایتمەکان", discounts: "٣. داشکاندن %", themes: "٤. دیزاین و بۆنە", social: "٥. ئەکاونت و GPS", security: "٦. ئاسایش" },
+                    selectSec: "بەشی سەرەکی هەڵبژێرە",
+                    nameKu: "ناو (بادینی)", nameCkb: "ناو (سۆرانی)", nameAr: "ناو (عەرەبی)", nameEn: "ناو (ئینگلیزی)",
+                    desc: "وەسفی ئایتم", price: "نرخی سەرەکی (IQD)",
+                    promoType: "جۆری داشکاندن بۆ ئەم ئایتمە",
+                    promoNone: "بێ داشکاندن", promoPercent: "داشکاندنی سەدی (20% OFF)", promoBogo: "١ بکڕە و ١ دیاری (1+1)",
+                    discPercent: "ڕێژەی داشکاندن % (نموونە: 20)",
+                    imgLabel: "وێنەی ئایتم (لینک یان لە مۆبایلەوە بیگۆڕە)",
+                    badgeLabel: "نیشانەی تایبەت",
+                    saveItem: "+ زیادکردن / پاشەکەوتکردن", cancelBtn: "هەڵوەشاندنەوە",
+                    editBtn: "دەستکاری", deleteBtn: "سڕینەوە",
+                    globalPromoStatus: "دۆخی بانەری داشکاندن لە سەرەوەی مینیو",
+                    globalPromoVal: "نیشانە یان ڕێژە (نموونە: 20% یان 1+1)",
+                    saveBtn: "پاشەکەوتکردن",
+                    chooseTheme: "ستایل و بۆنەی ساڵ هەڵبژێرە (تەواوی دیزاینەکە دەگۆڕێت):",
+                    profileLogo: "گۆڕینی وێنەی پڕۆفایل (لۆگۆ)",
+                    cafeName: "ناوی کافێ",
+                    addSecBtn: "+ زیادکردن / پاشەکەوتکردنی بەش",
+                    newPin: "وشەی تێپەڕی نوێ (PIN)", recEmail: "ئیمەیڵی گەڕاندنەوە", recPhone: "مۆبایلی گەڕاندنەوە"
+                }
             },
             ar: {
                 dir: "rtl",
                 heritage: "🇩🇪 هامبورغ، ألمانيا • تأسست عام ١٩٤٩",
                 heroTitle: "تشيبو كافيه",
                 heroSub: "اختر تجربتك الخاصة",
-                subDrinks: "قائمة القهوة والمشروبات",
-                titleDrinks: "المشروبات (DRINKS)",
-                subBakery: "الحلويات والكيك الألماني",
-                titleBakery: "المخبوزات (BAKERY)",
-                subBeans: "حبوب بن أرابيكا ألمانية 100%",
-                titleBeans: "حبوب القهوة (BEANS)",
                 backBtn: "الرجوع للرئيسية",
                 searchPlaceholder: "ابحث في هذا القسم...",
-                badgeDrinks: "☕ المشروبات (DRINKS)",
-                badgeBakery: "🍰 المخبوزات والحلويات",
-                badgeBeans: "🫘 حبوب القهوة (BEANS)",
-                tabs: {
-                    all: "الكل",
-                    hot: "ساخنة",
-                    cold: "باردة وموهيتو",
-                    cakes: "كيك وسترودل",
-                    pastries: "كرواسون ووافل",
-                    retail: "أكياس الحبوب"
-                },
                 badgeSpecial: "مميز ★",
-                badgeTop: "الأكثر طلباً",
+                badgeTop: "الأكثر طلباً 🔥",
+                bogoTag: "اشترِ ١ واحصل على ١ هدية 🎁",
+                promoSpecialLabel: "عرض خاص",
                 currency: "د.ع",
-                footer: "تشيبو كافيه © 2026 • جميع الحقوق محفوظة"
+                footer: "تشيبو كافيه © 2026 • جميع الحقوق محفوظة",
+                occasions: {
+                    blackfriday: "🖤 BLACK FRIDAY • عروض وتخفيضات الجمعة السوداء الكبرى 🏷️",
+                    newroz: "🔥 عيد نوروز سعيد • Newroz Special",
+                    newyear: "❄️ كل عام وأنتم بخير • Happy New Year",
+                    ramadan: "🌙 رمضان كريم • Ramadan Special",
+                    eid: "🎉 عيد مبارك • Eid Special",
+                    summer: "☀️ عروض الصيف المنعشة • Summer Vibes",
+                    autumn: "🍁 موسم الخريف والقهوة الدافئة • Autumn Season",
+                    coffeeday: "☕ اليوم العالمي للقهوة • International Coffee Day"
+                },
+                socialLabels: { call: "اتصال", gps: "الموقع", wa: "واتساب", insta: "انستغرام", snap: "سناب شات", tiktok: "تيك توك" },
+                admin: {
+                    header: "لوحة تحكم الإدارة (Admin)",
+                    enterPin: "أدخل الرمز السري (PIN):",
+                    loginBtn: "تسجيل الدخول",
+                    forgotPin: "هل نسيت الرمز السري؟ استعادة عبر الإيميل أو الهاتف",
+                    recoveryPrompt: "أدخل البريد الإلكتروني أو رقم الهاتف المسجل:",
+                    recoverBtn: "إظهار الرمز السري",
+                    backLogin: "العودة لتسجيل الدخول",
+                    tabs: { sections: "١. الأقسام", items: "٢. الأصناف", discounts: "٣. الخصومات %", themes: "٤. الثيمات والمناسبات", social: "٥. الحسابات و GPS", security: "٦. الرمز السري" },
+                    selectSec: "اختر القسم الرئيسي",
+                    nameKu: "الاسم (باديني)", nameCkb: "الاسم (سوراني)", nameAr: "الاسم (عربي)", nameEn: "الاسم (إنجليزي)",
+                    desc: "وصف الصنف", price: "السعر الأساسي (IQD)",
+                    promoType: "نوع العرض لهذا الصنف",
+                    promoNone: "بدون خصم", promoPercent: "خصم مئوي (20% OFF)", promoBogo: "اشتر ١ واحصل على ١ مجاناً",
+                    discPercent: "نسبة الخصم % (مثال: 20)",
+                    imgLabel: "صورة الصنف (رابط أو اختر من الهاتف)",
+                    badgeLabel: "شارة مميزة",
+                    saveItem: "+ إضافة / حفظ التعديلات", cancelBtn: "إلغاء التعديل",
+                    editBtn: "تعديل", deleteBtn: "حذف",
+                    globalPromoStatus: "حالة لافتة الخصم أعلى القائمة",
+                    globalPromoVal: "النسبة أو الرمز (مثال: 20% أو 1+1)",
+                    saveBtn: "حفظ التغييرات",
+                    chooseTheme: "اختر ثيم المناسبة (سيتغير التصميم بالكامل):",
+                    profileLogo: "تغيير صورة البروفايل (الشعار)",
+                    cafeName: "اسم الكافيه",
+                    addSecBtn: "+ إضافة / حفظ القسم",
+                    newPin: "الرمز السري الجديد (PIN)", recEmail: "إيميل الاسترداد", recPhone: "هاتف الاسترداد"
+                }
             },
             en: {
                 dir: "ltr",
                 heritage: "🇩🇪 Hamburg, Germany • Est. 1949",
                 heroTitle: "Tchibo Coffee",
-                heroSub: "Choose your experience",
-                subDrinks: "Coffee & Beverage Menu",
-                titleDrinks: "DRINKS",
-                subBakery: "Pastries & German Cakes",
-                titleBakery: "BAKERY",
-                subBeans: "100% German Arabica",
-                titleBeans: "COFFEE BEANS",
+                heroSub: "Choose your luxury coffee experience",
                 backBtn: "Back to Home",
-                searchPlaceholder: "Search this section...",
-                badgeDrinks: "☕ DRINKS",
-                badgeBakery: "🍰 BAKERY & DESSERTS",
-                badgeBeans: "🫘 COFFEE BEANS",
-                tabs: {
-                    all: "All",
-                    hot: "Hot Coffee",
-                    cold: "Cold & Mojito",
-                    cakes: "Cakes & Strudel",
-                    pastries: "Pastries & Waffles",
-                    retail: "Whole Beans"
-                },
+                searchPlaceholder: "Search in this section...",
                 badgeSpecial: "Signature ★",
-                badgeTop: "Best Seller",
+                badgeTop: "Best Seller 🔥",
+                bogoTag: "Buy 1 Get 1 Free 🎁",
+                promoSpecialLabel: "LIMITED OFFER",
                 currency: "IQD",
-                footer: "Tchibo Coffee House © 2026 • Hamburg Heritage"
+                footer: "Tchibo Coffee House © 2026 • All Rights Reserved",
+                occasions: {
+                    blackfriday: "🖤 BLACK FRIDAY • Massive Black Friday Deals 🏷️",
+                    newroz: "🔥 Happy Newroz Festival • Spring Edition",
+                    newyear: "❄️ Happy New Year • Winter Luxury Edition",
+                    ramadan: "🌙 Ramadan Kareem • Special Nights",
+                    eid: "🎉 Eid Mubarak • Festive Celebration",
+                    summer: "☀️ Refreshing Summer Vibes • Cold Specials",
+                    autumn: "🍁 Cozy Autumn Season • Warm Roasts",
+                    coffeeday: "☕ Happy International Coffee Day!"
+                },
+                socialLabels: { call: "Call Us", gps: "GPS Map", wa: "WhatsApp", insta: "Instagram", snap: "Snapchat", tiktok: "TikTok" },
+                admin: {
+                    header: "Executive Admin Panel",
+                    enterPin: "Enter Admin PIN Code:",
+                    loginBtn: "Sign In to Dashboard",
+                    forgotPin: "Forgot PIN Code? Recover via Email or Phone",
+                    recoveryPrompt: "Enter your registered recovery Email or Phone:",
+                    recoverBtn: "Reveal Admin PIN",
+                    backLogin: "Back to Login",
+                    tabs: { sections: "1. Categories", items: "2. Menu Items", discounts: "3. Discounts %", themes: "4. Themes & Events", social: "5. Social & GPS", security: "6. PIN & Security" },
+                    selectSec: "Select Main Category",
+                    nameKu: "Item Name (Badini)", nameCkb: "Item Name (Sorani)", nameAr: "Item Name (Arabic)", nameEn: "Item Name (English)",
+                    desc: "Item Description", price: "Base Price (IQD)",
+                    promoType: "Item Promotion / Discount Mode",
+                    promoNone: "No Discount", promoPercent: "Percentage Discount (e.g. 20% OFF)", promoBogo: "Buy 1 Get 1 Free Gift (1+1)",
+                    discPercent: "Discount Percentage % (e.g. 20)",
+                    imgLabel: "Item Image (Paste URL or Upload from Mobile)",
+                    badgeLabel: "Special Highlight Badge",
+                    saveItem: "+ Add / Save Item", cancelBtn: "Cancel Edit",
+                    editBtn: "Edit", deleteBtn: "Delete",
+                    globalPromoStatus: "Top Promo Banner Mode",
+                    globalPromoVal: "Badge Value (e.g. 20% OFF or 1+1)",
+                    saveBtn: "Save Settings",
+                    chooseTheme: "Select Event or Seasonal Theme (Changes Full Design):",
+                    profileLogo: "Change Profile Picture / Brand Logo",
+                    cafeName: "Cafe Brand Name",
+                    addSecBtn: "+ Save / Add Category",
+                    newPin: "New Admin PIN Code", recEmail: "Recovery Email Address", recPhone: "Recovery Phone Number"
+                }
             }
         };
 
-        // داتایێن مینیویێ ب جوداکرنا تەمام د ناڤبەرا (drinks ، bakery ، beans)
-        const menuData = [
-            // ================= بەشێ ١: ڤەخوارن (DRINKS) =================
+        /* ================= ٢. داتایێن دەستپێکێ ================= */
+        const defaultSections = [
             {
-                section: "drinks",
-                category: "hot",
-                price: "2,500",
-                badge: "special",
-                img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=200&auto=format&fit=crop",
-                ku: { title: "Tchibo Espresso Siziliano", desc: "ئێسپرێسۆیا تاری یا ڕاستەقینە یا چیبۆ ب شێوازێ ئیتاڵی" },
-                ar: { title: "إسبريسو سيسيليانو تشيبو", desc: "إسبريسو غامق ومكثف بنكهة حبوب تشيبو الفاخرة" },
-                en: { title: "Tchibo Espresso Siziliano", desc: "Intense, dark Southern Italian style roast from Tchibo beans" }
+                id: "drinks",
+                icon: "fa-solid fa-mug-hot",
+                img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=700&auto=format&fit=crop",
+                ku: { title: "ڤەخوارن (DRINKS)", sub: "مینیویا قاوە و ڤەخوارنان" },
+                ckb: { title: "خواردنەوەکان (DRINKS)", sub: "مینیوی قاوە و خواردنەوەکان" },
+                ar: { title: "المشروبات (DRINKS)", sub: "قائمة القهوة والمشروبات" },
+                en: { title: "DRINKS & COFFEE", sub: "Espresso & Signature Beverages" }
             },
             {
-                section: "drinks",
-                category: "hot",
-                price: "3,500",
-                badge: "special",
-                img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&auto=format&fit=crop",
-                ku: { title: "قاوەیا فلترکری یا ئەڵمانی (German Filter)", desc: "قاوەیا کلاسیک یا ئەڵمانی بێهندار ژ دانکێن ١٠٠٪ عەرەبیکا" },
-                ar: { title: "القهوة المقطرة الألمانية الكلاسيكية", desc: "قهوة الصباح الألمانية الأصلية المحضرة من حبوب أرابيكا 100%" },
-                en: { title: "Traditional German Filter Coffee", desc: "Classic German brewed coffee using 100% Tchibo Arabica beans" }
+                id: "bakery",
+                icon: "fa-solid fa-cake-candles",
+                img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=700&auto=format&fit=crop",
+                ku: { title: "شریناهی (BAKERY)", sub: "کێک و شترودلا ئەڵمانی" },
+                ckb: { title: "شیرینی (BAKERY)", sub: "کێک و شیرینی ئەڵمانی" },
+                ar: { title: "المخبوزات (BAKERY)", sub: "الحلويات والكيك الألماني" },
+                en: { title: "BAKERY & SWEETS", sub: "German Cakes & Fresh Pastries" }
             },
             {
-                section: "drinks",
-                category: "hot",
-                price: "4,000",
-                badge: null,
-                img: "https://images.unsplash.com/photo-1534778101976-62847782c213?w=200&auto=format&fit=crop",
-                ku: { title: "کاپوچینۆ میلانو (Cappuccino Milano)", desc: "قاوەیا چیبۆ دگەل کەفا شیری یا مەخمەلی و تۆزا کاکاوێ" },
-                ar: { title: "كابتشينو ميلانو", desc: "قهوة تشيبو المتوازنة مع رغوة حليب مخملية ولمسة كاكاو" },
-                en: { title: "Cappuccino Milano", desc: "Mild northern roast espresso with silky milk foam and cocoa dust" }
-            },
-            {
-                section: "drinks",
-                category: "hot",
-                price: "4,500",
-                badge: null,
-                img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=200&auto=format&fit=crop",
-                ku: { title: "ڤانێلا لاتی (Vanilla Latte)", desc: "شیرێ گەرم، شۆتەکێ ئێسپرێسۆ دگەل تامێ ڤانێلا مەدەغەشقەر" },
-                ar: { title: "فانيلا لاتيه", desc: "حليب ساخن مبخر مع إسبريسو ونكهة الفانيلا الطبيعية" },
-                en: { title: "Madagascar Vanilla Latte", desc: "Smooth steamed milk, espresso shot infused with rich vanilla" }
-            },
-            {
-                section: "drinks",
-                category: "cold",
-                price: "5,000",
-                badge: "top",
-                img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=200&auto=format&fit=crop",
-                ku: { title: "ئایس کارامێل مۆکیاتۆ چیبۆ", desc: "ئێسپرێسۆیا سار دگەل شیر، بەفر و سۆسا کارامێلا زێڕی" },
-                ar: { title: "آيس كراميل ماكياتو تشيبو", desc: "إسبريسو بارد، حليب مثلج مع طبقات صوص الكراميل الفاخر" },
-                en: { title: "Tchibo Iced Caramel Macchiato", desc: "Chilled espresso layered over cold milk, ice, and golden caramel" }
-            },
-            {
-                section: "drinks",
-                category: "cold",
-                price: "4,500",
-                badge: null,
-                img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=200&auto=format&fit=crop",
-                ku: { title: "مۆهیتۆ پێشن فرووت (Passion Fruit)", desc: "نەعنەعا فرێش، لیمۆن، پێشن فرووت دگەل سۆدایا تەزینۆک" },
-                ar: { title: "موهيتو الباشن فروت المنعش", desc: "نعناع طازج، ليمون، فاكهة الباشن فروت وصودا منعشة" },
-                en: { title: "Passion Fruit Mojito", desc: "Muddled mint, fresh lime, tropical passion fruit, and bubbly soda" }
-            },
-            {
-                section: "drinks",
-                category: "cold",
-                price: "5,000",
-                badge: null,
-                img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=200&auto=format&fit=crop",
-                ku: { title: "فرابێ شوکولاتەیا تاری (Dark Choc Frappe)", desc: "تێکەلێ بەستەنی، شیری و شوکولاتەیا ئەڵمانی دگەل کرێمێ" },
-                ar: { title: "فرابيه الشوكولاتة الداكنة", desc: "مزيج منعش من القهوة، الشوكولاتة الألمانية الداكنة والكريمة" },
-                en: { title: "Dark Chocolate Frappé", desc: "Blended coffee with rich German dark chocolate and whipped cream" }
-            },
-
-            // ================= بەشێ ٢: شریناهی (BAKERY & SWEETS) =================
-            {
-                section: "bakery",
-                category: "cakes",
-                price: "5,000",
-                badge: "special",
-                img: "https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=200&auto=format&fit=crop",
-                ku: { title: "ئەپڵ شترودلا ئەڵمانی (Apfelstrudel)", desc: "شترودلا ناڤدار یا ئەڵمانی ب سێڤ و دارچینێ دگەل دۆندرمایێ" },
-                ar: { title: "أبل سترودل ألماني كلاسيكي", desc: "حلوى التفاح الألمانية التقليدية مع القرفة وآيس كريم الفانيلا" },
-                en: { title: "Traditional German Apple Strudel", desc: "Warm spiced apple pastry served with classic vanilla ice cream" }
-            },
-            {
-                section: "bakery",
-                category: "cakes",
-                price: "5,500",
-                badge: "special",
-                img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=200&auto=format&fit=crop",
-                ku: { title: "کێکا دارستانا رەش (Black Forest)", desc: "کێکا شوکولاتەیا ئەڵمانی (شوارتزڤاڵد) دگەل گێلاس و کرێمێ" },
-                ar: { title: "كيكة الغابة السوداء (بلاك فورست)", desc: "كيكة الشوكولاتة الألمانية الشهيرة مع طبقات الكرز والكريمة" },
-                en: { title: "Black Forest Gateau (Schwarzwald)", desc: "Authentic German chocolate sponge layered with cherries and cream" }
-            },
-            {
-                section: "bakery",
-                category: "cakes",
-                price: "5,000",
-                badge: null,
-                img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=200&auto=format&fit=crop",
-                ku: { title: "چیزکێک سان سێباستیان", desc: "دگەل سۆسا شوکولاتەیا بلجیکی یا گەرم" },
-                ar: { title: "تشيز كيك سان سيباستيان", desc: "يقدم مع صوص الشوكولاتة البلجيكية الغنية" },
-                en: { title: "San Sebastian Cheesecake", desc: "Burnt Basque style cheesecake drizzled with warm Belgian chocolate" }
-            },
-            {
-                section: "bakery",
-                category: "pastries",
-                price: "4,500",
-                badge: null,
-                img: "https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=200&auto=format&fit=crop",
-                ku: { title: "وافڵ شوکولاتە و فێقی (Waffle)", desc: "وافڵێ کریپسی یێ گەرم دگەل نۆتێلا و فێقیێ فرێش" },
-                ar: { title: "وافل بالشوكولاتة والفواكه", desc: "وافل مقرمش يقدم ساخناً مع صوص الشوكولاتة والفواكه" },
-                en: { title: "Belgian Chocolate Waffle", desc: "Crispy warm waffle drizzled with chocolate and fresh berries" }
-            },
-            {
-                section: "bakery",
-                category: "pastries",
-                price: "3,000",
-                badge: null,
-                img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=200&auto=format&fit=crop",
-                ku: { title: "کرۆیاسان ب کەرەیا فەرەنسی", desc: "کرۆیاسانا نه‌رم و تازە یا برژاندی دگەل قاوێ" },
-                ar: { title: "كرواسون بالزبدة الفرنسية", desc: "كرواسون طازج وهش محضر بالزبدة الطبيعية" },
-                en: { title: "French Butter Croissant", desc: "Flaky, buttery freshly baked golden croissant" }
-            },
-
-            // ================= بەشێ ٣: دانکێن قاوێ (COFFEE BEANS) =================
-            {
-                section: "beans",
-                category: "retail",
-                price: "22,000",
-                badge: "special",
-                img: "https://images.unsplash.com/photo-1587734195503-904fca47e0e9?w=200&auto=format&fit=crop",
-                ku: { title: "Tchibo Barista Espresso (1 KG)", desc: "کیسکێ دانکێن قاوەیا برژاندی یا تایبەت ب مەکینەیا ئێسپرێسۆ" },
-                ar: { title: "حبوب تشيبو باريستا إسبريسو (1 كغم)", desc: "كيس حبوب بن محمص ببطء مثالي للإسبريسو المنزلي والاحترافي" },
-                en: { title: "Tchibo Barista Espresso Beans (1KG)", desc: "Slow roasted premium whole beans, perfect for intense espresso" }
-            },
-            {
-                section: "beans",
-                category: "retail",
-                price: "15,000",
-                badge: null,
-                img: "https://images.unsplash.com/photo-1610632380989-680fe40816c6?w=200&auto=format&fit=crop",
-                ku: { title: "Tchibo Feine Milde Filter (500g)", desc: "دانکێن ١٠٠٪ عەرەبیکا یا نەرم تایبەت بۆ قاوەیا فلترکری و V60" },
-                ar: { title: "حبوب تشيبو فاين ميلدي للفلتر (500 غ)", desc: "حبوب أرابيكا 100% بنكهة معتدلة مخصصة للقهوة المقطرة" },
-                en: { title: "Tchibo Feine Milde Beans (500g)", desc: "100% Arabica delicate roast, ideal for drip & filter coffee" }
+                id: "beans",
+                icon: "fa-solid fa-seedling",
+                img: "https://images.unsplash.com/photo-1587734195503-904fca47e0e9?w=700&auto=format&fit=crop",
+                ku: { title: "دانکێن قاوێ (BEANS)", sub: "١٠٠٪ عەرەبیکا یا ئەڵمانی" },
+                ckb: { title: "دەنکی قاوە (BEANS)", sub: "١٠٠٪ عەرەبیکای ئەڵمانی" },
+                ar: { title: "حبوب القهوة (BEANS)", sub: "حبوب بن أرابيكا ألمانية 100%" },
+                en: { title: "COFFEE BEANS", sub: "100% Roasted German Arabica" }
             }
         ];
 
+        const defaultMenuData = [
+            {
+                section: "drinks",
+                price: "3,500",
+                promoType: "percent",
+                discountPercent: 20,
+                badge: "special",
+                img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop",
+                ku: { title: "Tchibo Espresso Siziliano", desc: "ئێسپرێسۆیا تاری یا ڕاستەقینە یا چیبۆ ب شێوازێ ئیتاڵی" },
+                ckb: { title: "ئێسپرێسۆی سیزیلیانۆ چیبۆ", desc: "ئێسپرێسۆی تۆخ و ڕەسەنی چیبۆ بە شێوازی ئیتاڵی" },
+                ar: { title: "إسبريسو سيسيليانو تشيبو", desc: "إسبريسو غامق ومكثف بنكهة حبوب تشيبو الفاخرة" },
+                en: { title: "Tchibo Espresso Siziliano", desc: "Intense dark Italian style roast from Tchibo beans" }
+            },
+            {
+                section: "drinks",
+                price: "5,000",
+                promoType: "bogo",
+                discountPercent: 0,
+                badge: "top",
+                img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=600&auto=format&fit=crop",
+                ku: { title: "ئایس کارامێل مۆکیاتۆ", desc: "ئێسپرێسۆیا سار دگەل شیر، بەفر و سۆسا کارامێلا زێڕی" },
+                ckb: { title: "ئایس کارامێل ماکیاتۆ", desc: "ئێسپرێسۆی سارد لەگەڵ شیر و سۆسی کارامێلی زێڕین" },
+                ar: { title: "آيس كراميل ماكياتو تشيبو", desc: "إسبريسو بارد، حليب مثلج مع طبقات صوص الكراميل" },
+                en: { title: "Iced Caramel Macchiato", desc: "Chilled espresso over cold milk, ice and golden caramel" }
+            },
+            {
+                section: "bakery",
+                price: "5,000",
+                promoType: "none",
+                discountPercent: 0,
+                badge: "special",
+                img: "https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=600&auto=format&fit=crop",
+                ku: { title: "ئەپڵ شترودلا ئەڵمانی (Apfelstrudel)", desc: "شترودلا ناڤدار یا ئەڵمانی ب سێڤ و دارچینێ دگەل دۆندرمایێ" },
+                ckb: { title: "ئەپڵ شترودڵی ئەڵمانی", desc: "شیرینی بەناوبانگی ئەڵمانی بە سێو و دارچین و ئایسکرێم" },
+                ar: { title: "أبل سترودل ألماني كلاسيكي", desc: "حلوى التفاح الألمانية التقليدية مع القرفة والآيس كريم" },
+                en: { title: "Traditional German Apple Strudel", desc: "Warm spiced apple pastry served with vanilla ice cream" }
+            },
+            {
+                section: "beans",
+                price: "22,000",
+                promoType: "none",
+                discountPercent: 0,
+                badge: "special",
+                img: "https://images.unsplash.com/photo-1587734195503-904fca47e0e9?w=600&auto=format&fit=crop",
+                ku: { title: "Tchibo Barista Espresso (1 KG)", desc: "کیسکێ دانکێن قاوەیا برژاندی یا تایبەت ب مەکینەیا ئێسپرێسۆ" },
+                ckb: { title: "دەنکی قاوەی باریستا ئێسپرێسۆ (١ کیلۆ)", desc: "قاوەی برژاوی تایبەت بە ئامێری ئێسپرێسۆ" },
+                ar: { title: "حبوب تشيبو باريستا إسبريسو (1 كغم)", desc: "كيس حبوب بن محمص ببطء مثالي للإسبريسو" },
+                en: { title: "Tchibo Barista Espresso Beans (1KG)", desc: "Slow roasted whole beans for intense espresso" }
+            }
+        ];
+
+        const defaultPromoSettings = {
+            mode: "percent",
+            val: "20%",
+            ku: "٢٠٪ داشکاندن ل سەر قاوەیێن تایبەت یێن ئەڤرۆ!",
+            ckb: "٢٠٪ داشکاندن لەسەر قاوە تایبەتەکانی ئەمڕۆ!",
+            ar: "خصم 20% على القهوة المختصة اليوم!",
+            en: "20% OFF Today on Selected Signature Coffees!"
+        };
+
+        const defaultBrandSettings = {
+            theme: "default",
+            logo: "logo.jpg",
+            name: "Tchibo Coffee"
+        };
+
+        const defaultSocialData = {
+            phone: "07500000000",
+            gps: "https://maps.google.com",
+            whatsapp: "9647500000000",
+            insta: "https://instagram.com",
+            snap: "https://snapchat.com",
+            tiktok: "https://tiktok.com"
+        };
+
+        const defaultSecurityData = { pin: "1234", email: "", phone: "" };
+
+        let sectionsData = JSON.parse(localStorage.getItem('tchibo_sections_v4')) || defaultSections;
+        let menuData = JSON.parse(localStorage.getItem('tchibo_items_v4')) || defaultMenuData;
+        let promoSettings = JSON.parse(localStorage.getItem('tchibo_promo_v4')) || defaultPromoSettings;
+        let brandSettings = JSON.parse(localStorage.getItem('tchibo_brand_v4')) || defaultBrandSettings;
+        let socialData = JSON.parse(localStorage.getItem('tchibo_social_v4')) || defaultSocialData;
+        let securityData = JSON.parse(localStorage.getItem('tchibo_security_v4')) || defaultSecurityData;
+        let cloudConfig = JSON.parse(localStorage.getItem('tchibo_cloud_config')) || {
+            firebaseUrl: DEFAULT_CLOUD_URL,
+            githubRepo: "",
+            githubToken: ""
+        };
+
         let currentLang = 'ku';
         let currentSection = 'drinks';
-        let currentSubCategory = 'all';
 
-        // گوهۆڕینا زمانان
-        function setLang(lang, btn) {
-            currentLang = lang;
-            const t = translations[lang];
+        /* ================= ٣. سیستەمێ Live Cloud Sync بۆ هەمی مۆبایلێن مشتەریان ================= */
+        async function fetchLiveMenuData() {
+            const fbUrl = (cloudConfig.firebaseUrl || DEFAULT_CLOUD_URL || "").trim().replace(/\/$/, "");
+            try {
+                // ١. ئەگەر Firebase URL هەبیت، ڕاستەوخۆ داتایێن زیندی ژێ دئینیت
+                if (fbUrl) {
+                    const res = await fetch(`${fbUrl}/tchibo_live_menu.json?t=${Date.now()}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.sectionsData && data.menuData) {
+                            applyRemoteBundle(data);
+                            return;
+                        }
+                    }
+                }
+                // ٢. ئەگەر فایلا data.json د ناڤ GitHub ریپۆزیتۆریێ دا هەبیت، ژ وێرێ دئینیت
+                const localRes = await fetch(`data.json?t=${Date.now()}`);
+                if (localRes.ok) {
+                    const data = await localRes.json();
+                    if (data && data.sectionsData && data.menuData) {
+                        applyRemoteBundle(data);
+                    }
+                }
+            } catch (e) {
+                // ئەگەر ئۆفلاین بیت، داتایێن ناڤخۆیی کار دکەن
+            }
+        }
 
-            document.getElementById('htmlTag').setAttribute('dir', t.dir);
-            document.getElementById('htmlTag').setAttribute('lang', lang);
+        function applyRemoteBundle(bundle) {
+            sectionsData = bundle.sectionsData || sectionsData;
+            menuData = bundle.menuData || menuData;
+            promoSettings = bundle.promoSettings || promoSettings;
+            brandSettings = bundle.brandSettings || brandSettings;
+            socialData = bundle.socialData || socialData;
 
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            localStorage.setItem('tchibo_sections_v4', JSON.stringify(sectionsData));
+            localStorage.setItem('tchibo_items_v4', JSON.stringify(menuData));
+            localStorage.setItem('tchibo_promo_v4', JSON.stringify(promoSettings));
+            localStorage.setItem('tchibo_brand_v4', JSON.stringify(brandSettings));
+            localStorage.setItem('tchibo_social_v4', JSON.stringify(socialData));
 
-            document.getElementById('heritageText').innerText = t.heritage;
-            document.getElementById('heroTitle').innerText = t.heroTitle;
-            document.getElementById('heroSub').innerText = t.heroSub;
-            
-            document.getElementById('subDrinks').innerHTML = `<i class="fa-solid fa-mug-hot"></i> ${t.subDrinks}`;
-            document.getElementById('titleDrinks').innerText = t.titleDrinks;
-            
-            document.getElementById('subBakery').innerHTML = `<i class="fa-solid fa-cake-candles"></i> ${t.subBakery}`;
-            document.getElementById('titleBakery').innerText = t.titleBakery;
-            
-            document.getElementById('subBeans').innerHTML = `<i class="fa-solid fa-seedling"></i> ${t.subBeans}`;
-            document.getElementById('titleBeans').innerText = t.titleBeans;
-            
-            document.getElementById('footerCopy').innerText = t.footer;
-
-            document.getElementById('backBtnText').innerText = t.backBtn;
-            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-
-            // ئەگەر مینیو ڤەکری بیت، دوبارە دوگمەیێن پۆلان و ئایتمان نووبکە
+            applyBrandAndTheme();
+            renderSocialLinks();
+            renderMainSections();
             if (document.getElementById('menuView').style.display === 'block') {
-                updateSectionHeader();
-                renderSubTabs();
                 renderItems();
             }
         }
 
-        // ڤەکرنا هەر بەشەکی ب جودایی
-        function openSection(sectionName) {
-            currentSection = sectionName;
-            currentSubCategory = 'all';
+        async function pushLiveMenuData() {
+            const payload = {
+                updatedAt: Date.now(),
+                sectionsData,
+                menuData,
+                promoSettings,
+                brandSettings,
+                socialData
+            };
 
+            const fbUrl = (cloudConfig.firebaseUrl || DEFAULT_CLOUD_URL || "").trim().replace(/\/$/, "");
+            if (fbUrl) {
+                try {
+                    await fetch(`${fbUrl}/tchibo_live_menu.json`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (err) {
+                    console.error("Firebase Sync Error:", err);
+                }
+            }
+
+            if (cloudConfig.githubRepo && cloudConfig.githubToken) {
+                try {
+                    const apiUrl = `https://api.github.com/repos/${cloudConfig.githubRepo}/contents/data.json`;
+                    let sha = null;
+                    const getRes = await fetch(apiUrl, {
+                        headers: { 'Authorization': `Bearer ${cloudConfig.githubToken}` }
+                    });
+                    if (getRes.ok) {
+                        const fileInfo = await getRes.json();
+                        sha = fileInfo.sha;
+                    }
+                    const base64Content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+                    await fetch(apiUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `Bearer ${cloudConfig.githubToken}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: "Live menu update from Admin Mobile",
+                            content: base64Content,
+                            sha: sha || undefined
+                        })
+                    });
+                } catch (err) {
+                    console.error("GitHub Sync Error:", err);
+                }
+            }
+        }
+
+        function saveCloudConfigAndSync() {
+            cloudConfig = {
+                firebaseUrl: document.getElementById('inpFirebaseUrl').value.trim(),
+                githubRepo: document.getElementById('inpGithubRepo').value.trim(),
+                githubToken: document.getElementById('inpGithubToken').value.trim()
+            };
+            localStorage.setItem('tchibo_cloud_config', JSON.stringify(cloudConfig));
+            pushLiveMenuData().then(() => {
+                alert('🌐 هەمی گوهۆرین ب سەرکەفتییانە ل سەر ئینتەرنێتێ هاتنە بەلاڤکرن و نوکە ل نک هەمی مشتەریان دیار دبن!');
+            });
+        }
+
+        /* ================= ٤. بارکرنا وێنەی ژ مۆبایلێ ب قەبارێ گونجای (Compressed Base64) ================= */
+        function encodeImageFileAsURL(element, targetInputId, previewImgId) {
+            const file = element.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxDim = 650;
+                    let w = img.width;
+                    let h = img.height;
+                    if (w > h && w > maxDim) {
+                        h = Math.round((h * maxDim) / w);
+                        w = maxDim;
+                    } else if (h > maxDim) {
+                        w = Math.round((w * maxDim) / h);
+                        h = maxDim;
+                    }
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+                    document.getElementById(targetInputId).value = compressedDataUrl;
+                    if (previewImgId && document.getElementById(previewImgId)) {
+                        document.getElementById(previewImgId).src = compressedDataUrl;
+                    }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updatePreview(inputId, previewId) {
+            const val = document.getElementById(inputId).value.trim();
+            if (val && document.getElementById(previewId)) {
+                document.getElementById(previewId).src = val;
+            }
+        }
+
+        /* ================= ٥. مەزنکرنا وێنەی دەمێ مشتەری تبلێ لێ ددەت (Lightbox Zoom) ================= */
+        function openLightbox(imgSrc, title, desc, priceText) {
+            document.getElementById('lightboxImg').src = imgSrc;
+            document.getElementById('lightboxTitle').innerText = title || '';
+            document.getElementById('lightboxDesc').innerText = desc || '';
+            const priceEl = document.getElementById('lightboxPrice');
+            if (priceText) {
+                priceEl.style.display = 'inline-block';
+                priceEl.innerText = priceText;
+            } else {
+                priceEl.style.display = 'none';
+            }
+            document.getElementById('imageLightbox').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('imageLightbox').style.display = 'none';
+        }
+
+        /* ================= ٦. جێبەجێکرنا هەلکەفتان و ناڤێ لینکێ سەری ================= */
+        function applyBrandAndTheme() {
+            document.body.className = '';
+            if (brandSettings.theme && brandSettings.theme !== 'default') {
+                document.body.classList.add('theme-' + brandSettings.theme);
+            }
+
+            const logoEl = document.getElementById('brandLogoImg');
+            if (brandSettings.logo) logoEl.src = brandSettings.logo;
+
+            const cafeTitle = brandSettings.name || 'Tchibo Coffee';
+            document.title = cafeTitle;
+
+            const parts = cafeTitle.split(' ');
+            const first = parts[0] || 'Tchibo';
+            const rest = parts.slice(1).join(' ') || '';
+            document.getElementById('brandTitleText').innerHTML = `${first} <span>${rest}</span>`;
+
+            const t = translations[currentLang];
+            const occBadge = document.getElementById('occasionBadge');
+            const effectsBox = document.getElementById('seasonalEffects');
+            effectsBox.innerHTML = '';
+
+            if (brandSettings.theme !== 'default' && t.occasions[brandSettings.theme]) {
+                occBadge.style.display = 'inline-block';
+                occBadge.innerText = t.occasions[brandSettings.theme];
+
+                const symbolsMap = {
+                    blackfriday: '🏷️',
+                    newroz: '🌸',
+                    newyear: '❄️',
+                    ramadan: '🌙',
+                    eid: '🎉',
+                    summer: '☀️',
+                    autumn: '🍁',
+                    coffeeday: '☕'
+                };
+                const symbol = symbolsMap[brandSettings.theme] || '✨';
+
+                for (let i = 0; i < 12; i++) {
+                    const span = document.createElement('span');
+                    span.className = 'particle';
+                    span.innerText = symbol;
+                    span.style.left = Math.random() * 100 + 'vw';
+                    span.style.animationDuration = (5 + Math.random() * 6) + 's';
+                    span.style.animationDelay = (Math.random() * 4) + 's';
+                    effectsBox.appendChild(span);
+                }
+            } else {
+                occBadge.style.display = 'none';
+            }
+
+            const banner = document.getElementById('globalPromoBanner');
+            if (promoSettings.mode === 'off') {
+                banner.style.display = 'none';
+            } else {
+                banner.style.display = 'flex';
+                document.getElementById('promoIconBox').innerText = promoSettings.val || (promoSettings.mode === 'bogo' ? '1+1' : '%');
+                document.getElementById('promoBadgeType').innerText = t.promoSpecialLabel;
+                document.getElementById('promoBannerTitle').innerText = promoSettings[currentLang] || promoSettings.ku;
+            }
+        }
+
+        /* ================= ٧. دروستکرنا بەشێن سەرەکی و ئایکۆنێن سۆشیال ================= */
+        function renderSocialLinks() {
+            const container = document.getElementById('socialLinksContainer');
+            const labels = translations[currentLang].socialLabels;
+            container.innerHTML = '';
+
+            if (socialData.phone) container.innerHTML += `<a href="tel:${socialData.phone}" class="social-pill"><i class="fa-solid fa-phone"></i> <span>${labels.call}</span></a>`;
+            if (socialData.gps) container.innerHTML += `<a href="${socialData.gps}" target="_blank" class="social-pill"><i class="fa-solid fa-location-dot"></i> <span>${labels.gps}</span></a>`;
+            if (socialData.whatsapp) {
+                const cleanWa = socialData.whatsapp.replace(/[^0-9]/g, '');
+                container.innerHTML += `<a href="https://wa.me/${cleanWa}" target="_blank" class="social-pill"><i class="fa-brands fa-whatsapp"></i> <span>${labels.wa}</span></a>`;
+            }
+            if (socialData.insta) container.innerHTML += `<a href="${socialData.insta}" target="_blank" class="social-pill"><i class="fa-brands fa-instagram"></i> <span>${labels.insta}</span></a>`;
+            if (socialData.snap) container.innerHTML += `<a href="${socialData.snap}" target="_blank" class="social-pill"><i class="fa-brands fa-snapchat"></i> <span>${labels.snap}</span></a>`;
+            if (socialData.tiktok) container.innerHTML += `<a href="${socialData.tiktok}" target="_blank" class="social-pill"><i class="fa-brands fa-tiktok"></i> <span>${labels.tiktok}</span></a>`;
+        }
+
+        function renderMainSections() {
+            const wrapper = document.getElementById('mainSectionsWrapper');
+            wrapper.innerHTML = '';
+
+            sectionsData.forEach(sec => {
+                const info = sec[currentLang] || sec.ku;
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.onclick = () => openSection(sec.id);
+                card.innerHTML = `
+                    <img src="${sec.img}" alt="${info.title}" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=700&auto=format&fit=crop'">
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="text-wrap">
+                            <span><i class="${sec.icon || 'fa-solid fa-star'}"></i> ${info.sub || ''}</span>
+                            <h2>${info.title}</h2>
+                        </div>
+                        <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                `;
+                wrapper.appendChild(card);
+            });
+        }
+
+        /* ================= ٨. گوهۆرینا زمانان ================= */
+        function setLang(lang, btn) {
+            currentLang = lang;
+            const t = translations[lang];
+            const adm = t.admin;
+
+            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+
+            if (btn) {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            document.getElementById('heritageText').innerText = t.heritage;
+            document.getElementById('heroTitle').innerText = t.heroTitle;
+            document.getElementById('heroSub').innerText = t.heroSub;
+            document.getElementById('footerCopy').innerText = t.footer;
+            document.getElementById('backBtnText').innerText = t.backBtn;
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+
+            document.getElementById('admHeaderTitle').innerText = adm.header;
+            document.getElementById('lblEnterPin').innerText = adm.enterPin;
+            document.getElementById('btnLogin').innerText = adm.loginBtn;
+            document.getElementById('linkForgotPin').innerText = adm.forgotPin;
+            document.getElementById('lblRecoveryPrompt').innerText = adm.recoveryPrompt;
+            document.getElementById('btnRecoverPin').innerText = adm.recoverBtn;
+            document.getElementById('linkBackLogin').innerText = adm.backLogin;
+
+            document.getElementById('tabBtnSections').innerText = adm.tabs.sections;
+            document.getElementById('tabBtnItems').innerText = adm.tabs.items;
+            document.getElementById('tabBtnDiscounts').innerText = adm.tabs.discounts;
+            document.getElementById('tabBtnThemes').innerText = adm.tabs.themes;
+            document.getElementById('tabBtnSocial').innerText = adm.tabs.social;
+            document.getElementById('tabBtnSecurity').innerText = adm.tabs.security;
+
+            document.getElementById('lblSelectSection').innerText = adm.selectSec;
+            document.getElementById('lblItemNameKu').innerText = adm.nameKu;
+            document.getElementById('lblItemNameCkb').innerText = adm.nameCkb;
+            document.getElementById('lblItemNameAr').innerText = adm.nameAr;
+            document.getElementById('lblItemNameEn').innerText = adm.nameEn;
+            document.getElementById('lblItemDesc').innerText = adm.desc;
+            document.getElementById('lblItemPrice').innerText = adm.price;
+            document.getElementById('lblItemPromoType').innerText = adm.promoType;
+            document.getElementById('optPromoNone').innerText = adm.promoNone;
+            document.getElementById('optPromoPercent').innerText = adm.promoPercent;
+            document.getElementById('optPromoBogo').innerText = adm.promoBogo;
+            document.getElementById('lblItemDiscountPercent').innerText = adm.discPercent;
+            document.getElementById('lblItemImg').innerText = adm.imgLabel;
+            document.getElementById('lblItemBadge').innerText = adm.badgeLabel;
+            document.getElementById('saveItemBtn').innerText = adm.saveItem;
+            document.getElementById('cancelEditBtn').innerText = adm.cancelBtn;
+            document.getElementById('cancelSecEditBtn').innerText = adm.cancelBtn;
+
+            document.getElementById('lblGlobalPromoActive').innerText = adm.globalPromoStatus;
+            document.getElementById('lblGlobalPromoVal').innerText = adm.globalPromoVal;
+            document.getElementById('btnSavePromo').innerText = adm.saveBtn;
+            document.getElementById('lblChooseTheme').innerText = adm.chooseTheme;
+            document.getElementById('lblProfileLogo').innerText = adm.profileLogo;
+            document.getElementById('lblCafeName').innerText = adm.cafeName;
+            document.getElementById('btnSaveBrand').innerText = adm.saveBtn;
+            document.getElementById('btnAddSection').innerText = adm.addSecBtn;
+            document.getElementById('btnSaveSocial').innerText = adm.saveBtn;
+            document.getElementById('lblNewPin').innerText = adm.newPin;
+            document.getElementById('lblRecEmail').innerText = adm.recEmail;
+            document.getElementById('lblRecPhone').innerText = adm.recPhone;
+            document.getElementById('btnSaveSecurity').innerText = adm.saveBtn;
+
+            applyBrandAndTheme();
+            renderSocialLinks();
+            renderMainSections();
+            populateAdminSectionSelect();
+            renderAdminItemsList();
+            renderAdminSectionsList();
+
+            if (document.getElementById('menuView').style.display === 'block') {
+                openSection(currentSection);
+            }
+        }
+
+        /* ================= ٩. نیشادانا ئایتمێن مینیویێ ================= */
+        function openSection(sectionId) {
+            currentSection = sectionId;
             document.getElementById('landingView').style.display = 'none';
             document.getElementById('menuView').style.display = 'block';
 
-            updateSectionHeader();
-            renderSubTabs();
-            renderItems();
+            const secObj = sectionsData.find(s => s.id === sectionId);
+            const secTitle = secObj ? (secObj[currentLang]?.title || secObj.ku.title) : '';
+            document.getElementById('sectionCurrentBadge').innerText = secTitle;
 
+            renderItems();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // زڤڕین بۆ لاپەرێ سەرەکی
         function backToLanding() {
             document.getElementById('menuView').style.display = 'none';
             document.getElementById('landingView').style.display = 'flex';
@@ -933,104 +2198,461 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function updateSectionHeader() {
-            const t = translations[currentLang];
-            const badge = document.getElementById('sectionCurrentBadge');
-            if (currentSection === 'drinks') {
-                badge.innerText = t.badgeDrinks;
-            } else if (currentSection === 'bakery') {
-                badge.innerText = t.badgeBakery;
-            } else if (currentSection === 'beans') {
-                badge.innerText = t.badgeBeans;
-            }
+        function calculateDiscountedPrice(priceStr, percent) {
+            const num = parseFloat(String(priceStr).replace(/,/g, ''));
+            if (isNaN(num) || !percent || percent <= 0) return priceStr;
+            const discounted = Math.round(num * (1 - percent / 100));
+            return discounted.toLocaleString();
         }
 
-        // دروستکرنا دوگمەیێن فلتەرکرنێ ب ئایکۆنان ل دویڤ هەر بەشەکی
-        function renderSubTabs() {
-            const tabsNav = document.getElementById('subTabsNav');
-            const t = translations[currentLang];
-            tabsNav.innerHTML = '';
-
-            let tabsList = [];
-
-            if (currentSection === 'drinks') {
-                tabsList = [
-                    { id: 'all', label: t.tabs.all, icon: 'fa-solid fa-border-all' },
-                    { id: 'hot', label: t.tabs.hot, icon: 'fa-solid fa-mug-hot' },
-                    { id: 'cold', label: t.tabs.cold, icon: 'fa-solid fa-snowflake' }
-                ];
-            } else if (currentSection === 'bakery') {
-                tabsList = [
-                    { id: 'all', label: t.tabs.all, icon: 'fa-solid fa-border-all' },
-                    { id: 'cakes', label: t.tabs.cakes, icon: 'fa-solid fa-cake-candles' },
-                    { id: 'pastries', label: t.tabs.pastries, icon: 'fa-solid fa-bread-slice' }
-                ];
-            } else if (currentSection === 'beans') {
-                tabsList = [
-                    { id: 'all', label: t.tabs.all, icon: 'fa-solid fa-border-all' },
-                    { id: 'retail', label: t.tabs.retail, icon: 'fa-solid fa-seedling' }
-                ];
-            }
-
-            tabsList.forEach(tab => {
-                const activeClass = (tab.id === currentSubCategory) ? 'active' : '';
-                const btn = document.createElement('button');
-                btn.className = `tab-btn ${activeClass}`;
-                btn.innerHTML = `<i class="${tab.icon}"></i> ${tab.label}`;
-                btn.onclick = () => {
-                    currentSubCategory = tab.id;
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    renderItems();
-                };
-                tabsNav.appendChild(btn);
-            });
-        }
-
-        // نیشادانا بتنێ ئەو ئایتمێن سەر ب وی بەشێ ڤە
         function renderItems() {
             const listContainer = document.getElementById('menuList');
             const t = translations[currentLang];
             const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
 
             listContainer.innerHTML = '';
-
-            // فلتەرکرن ل دویڤ بەشێ سەرەکی (DRINKS یان BAKERY یان BEANS)
             const sectionItems = menuData.filter(item => item.section === currentSection);
 
             sectionItems.forEach(item => {
-                const matchCategory = (currentSubCategory === 'all' || item.category === currentSubCategory);
-                const itemInfo = item[currentLang];
-                const matchSearch = itemInfo.title.toLowerCase().includes(searchQuery) || itemInfo.desc.toLowerCase().includes(searchQuery);
+                const itemInfo = item[currentLang] || item.ku;
+                const matchSearch = itemInfo.title.toLowerCase().includes(searchQuery) || (itemInfo.desc || '').toLowerCase().includes(searchQuery);
 
-                if (matchCategory && matchSearch) {
-                    let badgeHtml = '';
-                    if (item.badge === 'special') {
-                        badgeHtml = `<span class="badge-special">${t.badgeSpecial}</span>`;
-                    } else if (item.badge === 'top') {
-                        badgeHtml = `<span class="badge-special">${t.badgeTop}</span>`;
+                if (matchSearch) {
+                    let badgesHtml = '';
+                    if (item.badge === 'special') badgesHtml += `<span class="badge-special">${t.badgeSpecial}</span>`;
+                    if (item.badge === 'top') badgesHtml += `<span class="badge-special">${t.badgeTop}</span>`;
+
+                    let finalPriceDisplay = `${item.price} ${t.currency}`;
+                    let priceHtml = `<span class="item-price">${finalPriceDisplay}</span>`;
+
+                    if (item.promoType === 'percent' && item.discountPercent > 0) {
+                        const newPrice = calculateDiscountedPrice(item.price, item.discountPercent);
+                        finalPriceDisplay = `${newPrice} ${t.currency}`;
+                        badgesHtml += `<span class="badge-discount">-${item.discountPercent}%</span>`;
+                        priceHtml = `
+                            <span class="item-old-price">${item.price}</span>
+                            <span class="item-price">${finalPriceDisplay}</span>
+                        `;
+                    } else if (item.promoType === 'bogo') {
+                        badgesHtml += `<span class="badge-bogo">${t.bogoTag}</span>`;
                     }
 
-                    const cardHtml = `
-                        <div class="item-card">
-                            <img class="item-img" src="${item.img}" alt="${itemInfo.title}">
-                            <div class="item-details">
-                                <div class="item-header">
-                                    <span class="item-title">${itemInfo.title}</span>
-                                    ${badgeHtml}
-                                </div>
-                                <p class="item-desc">${itemInfo.desc}</p>
-                                <span class="item-price">${item.price} ${t.currency}</span>
-                            </div>
-                        </div>
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+
+                    const imgWrap = document.createElement('div');
+                    imgWrap.className = 'item-img-wrap';
+                    imgWrap.onclick = () => openLightbox(item.img, itemInfo.title, itemInfo.desc || '', finalPriceDisplay);
+                    imgWrap.innerHTML = `
+                        <img class="item-img" src="${item.img}" alt="${itemInfo.title}" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=200&auto=format&fit=crop'">
+                        <span class="zoom-hint-icon"><i class="fa-solid fa-expand"></i></span>
                     `;
-                    listContainer.innerHTML += cardHtml;
+
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.className = 'item-details';
+                    detailsDiv.innerHTML = `
+                        <div class="item-header">
+                            <span class="item-title">${itemInfo.title}</span>
+                            <div class="badges-wrap">${badgesHtml}</div>
+                        </div>
+                        <p class="item-desc">${itemInfo.desc || ''}</p>
+                        <div class="item-price-row">${priceHtml}</div>
+                    `;
+
+                    card.appendChild(imgWrap);
+                    card.appendChild(detailsDiv);
+                    listContainer.appendChild(card);
                 }
             });
         }
 
         document.getElementById('searchInput').addEventListener('input', renderItems);
-    </script>
 
+        /* ================= ١٠. کۆنترۆلا بەشان و ئایتمان دگەل Auto Cloud Sync ================= */
+        function populateAdminSectionSelect() {
+            const sel = document.getElementById('itemSection');
+            const currentVal = sel.value;
+            sel.innerHTML = '';
+            sectionsData.forEach(sec => {
+                const opt = document.createElement('option');
+                opt.value = sec.id;
+                opt.innerText = sec[currentLang]?.title || sec.ku.title;
+                sel.appendChild(opt);
+            });
+            if (currentVal && sectionsData.some(s => s.id === currentVal)) {
+                sel.value = currentVal;
+            }
+        }
+
+        function saveOrUpdateSection() {
+            const editIdx = parseInt(document.getElementById('editSectionIndex').value, 10);
+            const kuTitle = document.getElementById('secTitleKu').value.trim();
+            if (!kuTitle) return alert('هیڤییە ناڤێ بەشی بنڤیسە!');
+
+            const ckbTitle = document.getElementById('secTitleCkb').value.trim() || kuTitle;
+            const arTitle = document.getElementById('secTitleAr').value.trim() || kuTitle;
+            const enTitle = document.getElementById('secTitleEn').value.trim() || kuTitle;
+            const subText = document.getElementById('secSubText').value.trim();
+            const imgUrl = document.getElementById('secImgUrl').value.trim() || 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=700&auto=format&fit=crop';
+
+            if (editIdx >= 0) {
+                const existing = sectionsData[editIdx];
+                sectionsData[editIdx] = {
+                    ...existing,
+                    img: imgUrl,
+                    ku: { title: kuTitle, sub: subText },
+                    ckb: { title: ckbTitle, sub: subText },
+                    ar: { title: arTitle, sub: subText },
+                    en: { title: enTitle, sub: subText }
+                };
+            } else {
+                const newSec = {
+                    id: 'sec_' + Date.now(),
+                    icon: 'fa-solid fa-utensils',
+                    img: imgUrl,
+                    ku: { title: kuTitle, sub: subText },
+                    ckb: { title: ckbTitle, sub: subText },
+                    ar: { title: arTitle, sub: subText },
+                    en: { title: enTitle, sub: subText }
+                };
+                sectionsData.push(newSec);
+            }
+
+            localStorage.setItem('tchibo_sections_v4', JSON.stringify(sectionsData));
+            resetSectionForm();
+            populateAdminSectionSelect();
+            renderMainSections();
+            renderAdminSectionsList();
+            pushLiveMenuData();
+            alert('بەش ب سەرکەفتییانە هاتە خەزنکرن و نووکرن!');
+        }
+
+        function startEditSection(idx) {
+            const sec = sectionsData[idx];
+            document.getElementById('editSectionIndex').value = idx;
+            document.getElementById('secTitleKu').value = sec.ku?.title || '';
+            document.getElementById('secTitleCkb').value = sec.ckb?.title || '';
+            document.getElementById('secTitleAr').value = sec.ar?.title || '';
+            document.getElementById('secTitleEn').value = sec.en?.title || '';
+            document.getElementById('secSubText').value = sec.ku?.sub || '';
+            document.getElementById('secImgUrl').value = sec.img || '';
+            document.getElementById('secImgPreview').src = sec.img || '';
+
+            document.getElementById('cancelSecEditBtn').style.display = 'block';
+            document.querySelector('.admin-box').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetSectionForm() {
+            document.getElementById('editSectionIndex').value = '-1';
+            document.getElementById('secTitleKu').value = '';
+            document.getElementById('secTitleCkb').value = '';
+            document.getElementById('secTitleAr').value = '';
+            document.getElementById('secTitleEn').value = '';
+            document.getElementById('secSubText').value = '';
+            document.getElementById('secImgUrl').value = '';
+            document.getElementById('cancelSecEditBtn').style.display = 'none';
+        }
+
+        function renderAdminSectionsList() {
+            const box = document.getElementById('adminSectionsList');
+            const adm = translations[currentLang].admin;
+            box.innerHTML = '';
+
+            sectionsData.forEach((sec, idx) => {
+                const title = sec[currentLang]?.title || sec.ku.title;
+                box.innerHTML += `
+                    <div class="admin-item-row">
+                        <div class="admin-row-left">
+                            <img class="admin-row-thumb" src="${sec.img}" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=100&auto=format&fit=crop'">
+                            <strong>${title}</strong>
+                        </div>
+                        <div class="admin-item-actions">
+                            <button class="edit-item-btn" onclick="startEditSection(${idx})">${adm.editBtn}</button>
+                            <button class="delete-item-btn" onclick="deleteSection(${idx})">${adm.deleteBtn}</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteSection(idx) {
+            if (sectionsData.length <= 1) return alert('بتنێ ١ بەش مایە، ناهێتە ژێبرن!');
+            if (!confirm('تە دڤێت ڤی بەشی ژێببەی؟')) return;
+            sectionsData.splice(idx, 1);
+            localStorage.setItem('tchibo_sections_v4', JSON.stringify(sectionsData));
+            resetSectionForm();
+            populateAdminSectionSelect();
+            renderMainSections();
+            renderAdminSectionsList();
+            pushLiveMenuData();
+        }
+
+        function saveOrUpdateMenuItem() {
+            const editIndex = parseInt(document.getElementById('editItemIndex').value, 10);
+            const section = document.getElementById('itemSection').value;
+            const titleKu = document.getElementById('itemTitleKu').value.trim();
+            const titleCkb = document.getElementById('itemTitleCkb').value.trim() || titleKu;
+            const titleAr = document.getElementById('itemTitleAr').value.trim() || titleKu;
+            const titleEn = document.getElementById('itemTitleEn').value.trim() || titleKu;
+            const desc = document.getElementById('itemDescKu').value.trim();
+            const price = document.getElementById('itemPrice').value.trim();
+            const promoType = document.getElementById('itemPromoType').value;
+            const discountPercent = parseFloat(document.getElementById('itemDiscountPercent').value) || 0;
+            const img = document.getElementById('itemImg').value.trim() || 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&auto=format&fit=crop';
+            const badge = document.getElementById('itemBadge').value || null;
+
+            if (!titleKu || !price) {
+                alert('هیڤییە ناڤ و بهایێ ئایتمی بنڤیسە!');
+                return;
+            }
+
+            const itemObj = {
+                section, price, promoType, discountPercent, badge, img,
+                ku: { title: titleKu, desc },
+                ckb: { title: titleCkb, desc },
+                ar: { title: titleAr, desc },
+                en: { title: titleEn, desc }
+            };
+
+            if (editIndex >= 0) {
+                menuData[editIndex] = itemObj;
+            } else {
+                menuData.unshift(itemObj);
+            }
+
+            localStorage.setItem('tchibo_items_v4', JSON.stringify(menuData));
+            resetItemForm();
+            renderAdminItemsList();
+            renderItems();
+            pushLiveMenuData();
+            alert('ئایتم ب سەرکەفتییانە هاتە خەزنکرن!');
+        }
+
+        function startEditMenuItem(index) {
+            const item = menuData[index];
+            document.getElementById('editItemIndex').value = index;
+            populateAdminSectionSelect();
+            document.getElementById('itemSection').value = item.section;
+            document.getElementById('itemTitleKu').value = item.ku?.title || '';
+            document.getElementById('itemTitleCkb').value = item.ckb?.title || '';
+            document.getElementById('itemTitleAr').value = item.ar?.title || '';
+            document.getElementById('itemTitleEn').value = item.en?.title || '';
+            document.getElementById('itemDescKu').value = item.ku?.desc || '';
+            document.getElementById('itemPrice').value = item.price || '';
+            document.getElementById('itemPromoType').value = item.promoType || 'none';
+            document.getElementById('itemDiscountPercent').value = item.discountPercent || '';
+            document.getElementById('itemImg').value = item.img || '';
+            document.getElementById('itemImgPreview').src = item.img || '';
+            document.getElementById('itemBadge').value = item.badge || '';
+
+            document.getElementById('cancelEditBtn').style.display = 'block';
+            document.querySelector('.admin-box').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetItemForm() {
+            document.getElementById('editItemIndex').value = '-1';
+            document.getElementById('itemTitleKu').value = '';
+            document.getElementById('itemTitleCkb').value = '';
+            document.getElementById('itemTitleAr').value = '';
+            document.getElementById('itemTitleEn').value = '';
+            document.getElementById('itemDescKu').value = '';
+            document.getElementById('itemPrice').value = '';
+            document.getElementById('itemPromoType').value = 'none';
+            document.getElementById('itemDiscountPercent').value = '';
+            document.getElementById('itemImg').value = '';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+        }
+
+        function renderAdminItemsList() {
+            const listDiv = document.getElementById('adminItemsList');
+            const adm = translations[currentLang].admin;
+            listDiv.innerHTML = '';
+
+            menuData.forEach((item, index) => {
+                const title = item[currentLang]?.title || item.ku.title;
+                const secObj = sectionsData.find(s => s.id === item.section);
+                const secName = secObj ? (secObj[currentLang]?.title || secObj.ku.title) : item.section;
+
+                const row = document.createElement('div');
+                row.className = 'admin-item-row';
+                row.innerHTML = `
+                    <div class="admin-row-left">
+                        <img class="admin-row-thumb" src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=100&auto=format&fit=crop'">
+                        <div>
+                            <strong>${title}</strong> (${item.price})
+                            <div style="font-size:10px; color:var(--accent-light);">${secName}</div>
+                        </div>
+                    </div>
+                    <div class="admin-item-actions">
+                        <button class="edit-item-btn" onclick="startEditMenuItem(${index})">${adm.editBtn}</button>
+                        <button class="delete-item-btn" onclick="deleteMenuItem(${index})">${adm.deleteBtn}</button>
+                    </div>
+                `;
+                listDiv.appendChild(row);
+            });
+        }
+
+        function deleteMenuItem(index) {
+            if (!confirm('تە دڤێت ڤی ئایتمی ژێببەی؟')) return;
+            menuData.splice(index, 1);
+            localStorage.setItem('tchibo_items_v4', JSON.stringify(menuData));
+            renderAdminItemsList();
+            renderItems();
+            pushLiveMenuData();
+        }
+
+        function openAdminModal() {
+            document.getElementById('adminModal').style.display = 'flex';
+            populateAdminSectionSelect();
+
+            document.getElementById('globalPromoActive').value = promoSettings.mode || 'off';
+            document.getElementById('globalPromoVal').value = promoSettings.val || '';
+            document.getElementById('globalPromoTextKu').value = promoSettings.ku || '';
+            document.getElementById('globalPromoTextCkb').value = promoSettings.ckb || '';
+            document.getElementById('globalPromoTextAr').value = promoSettings.ar || '';
+            document.getElementById('globalPromoTextEn').value = promoSettings.en || '';
+
+            document.getElementById('inpLogoUrl').value = brandSettings.logo || '';
+            document.getElementById('logoPreviewThumb').src = brandSettings.logo || 'logo.jpg';
+            document.getElementById('inpCafeName').value = brandSettings.name || '';
+
+            document.getElementById('inpPhone').value = socialData.phone || '';
+            document.getElementById('inpGps').value = socialData.gps || '';
+            document.getElementById('inpWhatsapp').value = socialData.whatsapp || '';
+            document.getElementById('inpInsta').value = socialData.insta || '';
+            document.getElementById('inpSnap').value = socialData.snap || '';
+            document.getElementById('inpTiktok').value = socialData.tiktok || '';
+
+            document.getElementById('secNewPin').value = securityData.pin || '1234';
+            document.getElementById('secRecoveryEmail').value = securityData.email || '';
+            document.getElementById('secRecoveryPhone').value = securityData.phone || '';
+
+            document.getElementById('inpFirebaseUrl').value = cloudConfig.firebaseUrl || DEFAULT_CLOUD_URL || '';
+            document.getElementById('inpGithubRepo').value = cloudConfig.githubRepo || '';
+            document.getElementById('inpGithubToken').value = cloudConfig.githubToken || '';
+
+            renderAdminSectionsList();
+            renderAdminItemsList();
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').style.display = 'none';
+        }
+
+        function verifyAdminPin() {
+            const pin = document.getElementById('adminPinInput').value.trim();
+            if (pin === securityData.pin) {
+                document.getElementById('adminLoginSection').style.display = 'none';
+                document.getElementById('adminRecoverySection').style.display = 'none';
+                document.getElementById('adminDashboardSection').style.display = 'block';
+                document.getElementById('adminPinInput').value = '';
+            } else {
+                alert('PIN Incorrect / ڕەقەم سری خەلەتە!');
+            }
+        }
+
+        function showRecoverySection() {
+            document.getElementById('adminLoginSection').style.display = 'none';
+            document.getElementById('adminRecoverySection').style.display = 'block';
+        }
+
+        function backToAdminLogin() {
+            document.getElementById('adminRecoverySection').style.display = 'none';
+            document.getElementById('adminLoginSection').style.display = 'block';
+        }
+
+        function recoverAdminPin() {
+            const val = document.getElementById('recoveryInput').value.trim().toLowerCase();
+            const savedEmail = (securityData.email || '').trim().toLowerCase();
+            const savedPhone = (securityData.phone || '').trim();
+
+            if (!savedEmail && !savedPhone) {
+                alert('PIN: ' + securityData.pin);
+                return;
+            }
+            if ((val && val === savedEmail) || (val && val === savedPhone)) {
+                alert('Your Admin PIN is: ' + securityData.pin);
+                backToAdminLogin();
+            } else {
+                alert('Not matched! / ل گەل ئیمێل یان ژمارا تۆمارکری ناگونجیت');
+            }
+        }
+
+        function switchAdminTab(tab) {
+            const tabs = ['sections', 'items', 'discounts', 'themes', 'social', 'security', 'cloud'];
+            tabs.forEach(t => {
+                const btn = document.getElementById('tabBtn' + t.charAt(0).toUpperCase() + t.slice(1));
+                const box = document.getElementById('admin' + t.charAt(0).toUpperCase() + t.slice(1) + 'Tab');
+                if (btn) btn.classList.toggle('active', t === tab);
+                if (box) box.style.display = (t === tab) ? 'block' : 'none';
+            });
+            if (tab === 'items') populateAdminSectionSelect();
+        }
+
+        function savePromoSettings() {
+            promoSettings = {
+                mode: document.getElementById('globalPromoActive').value,
+                val: document.getElementById('globalPromoVal').value.trim(),
+                ku: document.getElementById('globalPromoTextKu').value.trim(),
+                ckb: document.getElementById('globalPromoTextCkb').value.trim(),
+                ar: document.getElementById('globalPromoTextAr').value.trim(),
+                en: document.getElementById('globalPromoTextEn').value.trim()
+            };
+            localStorage.setItem('tchibo_promo_v4', JSON.stringify(promoSettings));
+            applyBrandAndTheme();
+            pushLiveMenuData();
+            alert('Saved & Synced!');
+        }
+
+        function selectTheme(themeName) {
+            brandSettings.theme = themeName;
+            localStorage.setItem('tchibo_brand_v4', JSON.stringify(brandSettings));
+            applyBrandAndTheme();
+            pushLiveMenuData();
+        }
+
+        function saveBrandSettings() {
+            brandSettings.logo = document.getElementById('inpLogoUrl').value.trim() || 'logo.jpg';
+            brandSettings.name = document.getElementById('inpCafeName').value.trim() || 'Tchibo Coffee';
+            localStorage.setItem('tchibo_brand_v4', JSON.stringify(brandSettings));
+            applyBrandAndTheme();
+            pushLiveMenuData();
+            alert('Brand & Profile Updated!');
+        }
+
+        function saveSocialSettings() {
+            socialData = {
+                phone: document.getElementById('inpPhone').value.trim(),
+                gps: document.getElementById('inpGps').value.trim(),
+                whatsapp: document.getElementById('inpWhatsapp').value.trim(),
+                insta: document.getElementById('inpInsta').value.trim(),
+                snap: document.getElementById('inpSnap').value.trim(),
+                tiktok: document.getElementById('inpTiktok').value.trim()
+            };
+            localStorage.setItem('tchibo_social_v4', JSON.stringify(socialData));
+            renderSocialLinks();
+            pushLiveMenuData();
+            alert('Saved & Synced!');
+        }
+
+        function saveSecuritySettings() {
+            const newPin = document.getElementById('secNewPin').value.trim();
+            if (!newPin) return;
+            securityData = {
+                pin: newPin,
+                email: document.getElementById('secRecoveryEmail').value.trim(),
+                phone: document.getElementById('secRecoveryPhone').value.trim()
+            };
+            localStorage.setItem('tchibo_security_v4', JSON.stringify(securityData));
+            alert('Security Saved!');
+        }
+
+        // دەستپێکرنا مینیویێ و پشکنینا ئۆنلاین هەر ٨ چرکان جارەکێ بۆ مشتەریان
+        applyBrandAndTheme();
+        renderSocialLinks();
+        renderMainSections();
+        fetchLiveMenuData();
+        setInterval(fetchLiveMenuData, 8000);
+    </script>
 </body>
 </html>
